@@ -6,20 +6,20 @@ COMMAND=$1
 
 case $COMMAND in
     build)
-        echo "Building project..."
+        echo -e "Building project..."
         cmake -S . -B build
         cmake --build build
         ;;
     run)
-        echo "Running project...\n"
+        echo -e "Running project...\n"
         ./build/project_exec
         ;;
     test)
-        echo "Testing project...\n"
+        echo -e "Testing project...\n"
         ./build/project_tests
         ;;
     *)
-        echo "Unknow command!"
+        echo "Unknown command '$1'!"
         ;;
 esac
 
