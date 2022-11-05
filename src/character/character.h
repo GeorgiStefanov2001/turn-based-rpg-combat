@@ -1,8 +1,8 @@
 #ifndef __CHARACTER_H_INCLUDED__
 #define __CHARACTER_H_INCLUDED__
 
-#include <string>
 #include <map>
+#include <string>
 
 // Base Character class
 class Character
