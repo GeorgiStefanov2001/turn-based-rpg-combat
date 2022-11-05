@@ -22,6 +22,18 @@ class Character
 
     // TODO: For mage classes - add "mana" stat and current_mana field
 
+    /**
+     * Overload the operator<< for ostream in order to print out the details of the current Character instance.
+     * Declare it as a friend function so it has access to the private and protected fields of the class that need to be printed.
+     * This is done more for demonstrational purposes of the 'friend function' functionality more than anything else.
+     *
+     * @param[out] s the output stream object that writes the data
+     * @param[out] character the Character instance, whose data will be printed
+     *
+     * @returns an std::ostream operator that is used for writing data
+     */
+    friend std::ostream &operator<<(std::ostream &s, const Character &character);
+
 public:
     /**
      * Initialize a new instance of the Character class with the given parameters
@@ -46,6 +58,8 @@ public:
               int strength,
               int dexterity,
               int inteligence);
+
+    // TODO: Add getter/setter for character_class; setter will be used in the constructors of the children classes
 
     /**
      * Get the name of the character
