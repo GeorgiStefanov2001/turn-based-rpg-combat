@@ -4,7 +4,7 @@ project(turn-based-rpg-combat-tests)
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)
 
-# Executable for the 
+# Executable for the project
 set(SOURCES src/main.cpp src/character/character.cpp)
 add_executable(
   project_exec
@@ -20,6 +20,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
+# Executable for the tests
 set(TEST_SOURCES tests/character/test_character.cpp)
 add_executable(
   project_tests

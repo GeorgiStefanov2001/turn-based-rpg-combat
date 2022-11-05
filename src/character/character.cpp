@@ -2,12 +2,8 @@
 
 #include <iostream>
 
-Character::Character() {}
-
 Character::Character(std::string name, std::string gender, int age, int level, int vigor, int endurance, int strength, int dexterity, int inteligence)
 {
-    // Creating a new character
-
     this->name = name;
     this->gender = gender;
     this->age = age;
@@ -46,7 +42,7 @@ void Character::set_current_endurance(int endurance)
     this->current_endurance = endurance;
 }
 
-void Character::attack(Character enemy, std::string attack_name, double damage_dealt, double endurance_consumption, std::map<std::string, int> attack_requirements)
+void Character::attack(Character &enemy, std::string attack_name, double damage_dealt, double endurance_consumption, std::map<std::string, int> attack_requirements)
 {
     // TODO: When fighting, in the main loop print character details (the remaining vigor, endurance, mana)
     int endurance_left = this->get_current_endurance() - endurance_consumption;
