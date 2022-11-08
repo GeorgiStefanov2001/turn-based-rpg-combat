@@ -11,6 +11,9 @@
  */
 class Knight : public Character
 {
+    /**
+     * Enum that contains the starting attributes of the Knight class
+     */
     enum starting_attributes
     {
         level = 9,
@@ -21,6 +24,12 @@ class Knight : public Character
         inteligence = 9,
         faith = 9
     };
+
+    /**
+     * Load up all the available attacks from a map structure.
+     * Map type must be "std::map<std::string, std::map<std::string, double>>"
+     */
+    void load_all_attacks();
 
 public:
     /**

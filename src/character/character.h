@@ -28,6 +28,13 @@ class Character
      */
     int current_vigor, current_endurance;
 
+    /**
+     * A map of maps that contains all the available attacks this class has.
+     * Each key of the outer map is the attack name and each value is another map,
+     * that contains the attributes of the given attack (such as damage, endurance consumption and so on...)
+     */
+    std::map<std::string, std::map<std::string, double>> available_attacks;
+
     // TODO: For mage classes - add "mana" stat and current_mana field
     // TODO: Add current_level + other current_<attribute> as needed
     // (such as current_xp so each win in battle gives xp and we can level up after the fight if the xp >= lvl cap)
@@ -76,16 +83,23 @@ protected:
     /**
      * Set the current vigor of the character to a given value
      *
-     * @param vigor the value to which the current vigor attribute of this Character instance will be set
+     * @param[in] vigor the value to which the current vigor attribute of this Character instance will be set
      */
     void set_current_vigor(int vigor);
 
     /**
      * Set the current endurance of the character to a given value
      *
-     * @param endurance the value to which the current endurance attribute of this Character instance will be set
+     * @param[in] endurance the value to which the current endurance attribute of this Character instance will be set
      */
     void set_current_endurance(int endurance);
+
+    /**
+     * Set the available attacks of the character to a given value
+     *
+     * @param[in] available_attacks the value to which the available attacks map attribute of this Character instance will be set
+     */
+    void set_available_attacks(std::map<std::string, std::map<std::string, double>> available_attacks);
 
 public:
     /**
@@ -110,6 +124,13 @@ public:
     int get_current_endurance();
 
     /**
+     * Get the available attacks of the character
+     *
+     * @returns all the available attacks of this Character instance
+     */
+    std::map<std::string, std::map<std::string, double>> get_available_attacks();
+
+    /**
      * Attack another character and deal certain amount of damage (depletes the enemy's vigor).
      * The attack has certain attribute requirements in order to be executed and consumes stamina.
      *
@@ -120,6 +141,7 @@ public:
      * @param[in] attack_requirements the character attribute requirements of this Character instance
      *      that are required in order to execute this attack
      */
+
     void attack(Character &enemy,
                 std::string attack_name,
                 double damage_dealt,

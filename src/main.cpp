@@ -14,8 +14,9 @@ int main()
     std::map<std::string, int> attack_req;
     attack_req.insert(std::pair<std::string, int>("Strength", 10));
     attacker.attack(attacked, "slash", 15, 10, attack_req);
-
     std::cout << attacked.get_current_vigor() << std::endl;
+
+    std::cout << attacker.get_available_attacks().at("short_slash").at("faith_req") << std::endl;
 
     return 0;
 }
