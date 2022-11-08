@@ -10,10 +10,18 @@
 class Character
 {
     /**
+     * Constants
+     * These multiplier are multiplied by the characters "vigor" and "endurance"
+     * attributes which then gives us the vigor and endurance points
+     */
+    static const int VIGOR_MULTIPLIER = 20;
+    static const int ENDURANCE_MULTIPLIER = 15;
+
+    /**
      * Character attributes that get set upon creation
      */
     std::string character_class, name, gender;
-    int age, level, vigor, endurance, strength, dexterity, inteligence;
+    int age, level, vigor, endurance, strength, dexterity, inteligence, faith;
 
     /**
      * Fields that relate to the dynamically changing character status
@@ -21,6 +29,8 @@ class Character
     int current_vigor, current_endurance;
 
     // TODO: For mage classes - add "mana" stat and current_mana field
+    // TODO: Add current_level + other current_<attribute> as needed
+    // (such as current_xp so each win in battle gives xp and we can level up after the fight if the xp >= lvl cap)
 
     /**
      * Overload the operator<< for ostream in order to print out the details of the current Character instance.
@@ -34,10 +44,11 @@ class Character
      */
     friend std::ostream &operator<<(std::ostream &s, const Character &character);
 
-public:
+protected:
     /**
      * Initialize a new instance of the Character class with the given parameters
      *
+     * @param[in] character_class the class of the character that will be created
      * @param[in] name the name of the character that will be created
      * @param[in] gender the gender of the character that will be created
      * @param[in] age the age of the character that will be created
@@ -48,8 +59,10 @@ public:
      * @param[in] strength the strength attribute of the character that will be created
      * @param[in] dexterity the dexterity attribute of the character that will be created
      * @param[in] inteligence the inteligence attribute of the character that will be created
+     * @param[in] faith the faith attribute of the character that will be created
      */
-    Character(std::string name,
+    Character(std::string character_class,
+              std::string name,
               std::string gender,
               int age,
               int level,
@@ -57,10 +70,24 @@ public:
               int endurance,
               int strength,
               int dexterity,
-              int inteligence);
+              int inteligence,
+              int faith);
 
-    // TODO: Add getter/setter for character_class; setter will be used in the constructors of the children classes
+    /**
+     * Set the current vigor of the character to a given value
+     *
+     * @param vigor the value to which the current vigor attribute of this Character instance will be set
+     */
+    void set_current_vigor(int vigor);
 
+    /**
+     * Set the current endurance of the character to a given value
+     *
+     * @param endurance the value to which the current endurance attribute of this Character instance will be set
+     */
+    void set_current_endurance(int endurance);
+
+public:
     /**
      * Get the name of the character
      *
@@ -76,25 +103,11 @@ public:
     int get_current_vigor();
 
     /**
-     * Set the current vigor of the character to a given value
-     *
-     * @param vigor the value to which the current vigor attribute of this Character instance will be set
-     */
-    void set_current_vigor(int vigor);
-
-    /**
      * Get the current endurance of the character
      *
      * @returns the current endurance attribute of this Character instance
      */
     int get_current_endurance();
-
-    /**
-     * Set the current endurance of the character to a given value
-     *
-     * @param endurance the value to which the current endurance attribute of this Character instance will be set
-     */
-    void set_current_endurance(int endurance);
 
     /**
      * Attack another character and deal certain amount of damage (depletes the enemy's vigor).

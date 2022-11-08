@@ -1,4 +1,4 @@
-#include "character/character.h"
+#include "character/melee/knight.h"
 
 #include <map>
 #include <string>
@@ -6,14 +6,14 @@
 
 int main()
 {
-    Character attacker("Gosho", "Male", 12, 12, 12, 25, 12, 12, 12);
-    Character attacked("Pesho", "Male", 12, 12, 300, 12, 12, 12, 12);
+    Knight attacker("Gosho", "Male", 50);
+    Knight attacked("Pesho", "Male", 231);
 
     std::cout << attacker << std::endl;
 
     std::map<std::string, int> attack_req;
     attack_req.insert(std::pair<std::string, int>("Strength", 10));
-    attacker.attack(attacked, "slash", 200, 10, attack_req);
+    attacker.attack(attacked, "slash", 15, 10, attack_req);
 
     std::cout << attacked.get_current_vigor() << std::endl;
 
