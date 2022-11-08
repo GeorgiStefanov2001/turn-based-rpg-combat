@@ -5,10 +5,17 @@ project(turn-based-rpg-combat-tests)
 set(CMAKE_CXX_STANDARD 14)
 
 # Executable for the project
-set(SOURCES src/main.cpp src/character/character.cpp)
+set(SOURCES src/main.cpp src/character/character.cpp src/character/melee/knight.cpp)
 add_executable(
   project_exec
   ${SOURCES}
+)
+
+set(INCLUDE_DIRS src/)
+target_include_directories(
+  project_exec
+  PRIVATE
+  ${INCLUDE_DIRS}
 )
 
 include(FetchContent)
@@ -29,6 +36,13 @@ add_executable(
 target_link_libraries(
   project_tests
   GTest::gtest_main
+)
+
+set(INCLUDE_DIRS ./)
+target_include_directories(
+  project_tests
+  PRIVATE
+  ${INCLUDE_DIRS}
 )
 
 include(GoogleTest)

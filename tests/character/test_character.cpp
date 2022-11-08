@@ -1,4 +1,4 @@
-#include "../../src/character/character.h" //TODO: Take a look at these imports..
+#include <src/character/character.h>
 
 #include "gtest/gtest.h"
 
