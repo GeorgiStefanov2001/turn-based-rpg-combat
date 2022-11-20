@@ -141,7 +141,6 @@ public:
      * @param[in] attack_requirements the character attribute requirements of this Character instance
      *      that are required in order to execute this attack
      */
-
     void attack(Character &enemy,
                 std::string attack_name,
                 double damage_dealt,
