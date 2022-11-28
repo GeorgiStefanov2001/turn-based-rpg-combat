@@ -41,7 +41,7 @@ void SQLiteDatabaseManager::execute_statement(sqlite3 *db, std::string sql_state
 
     if (result != SQLITE_OK)
     {
-        std::cerr << "Error durring sqlite exec: " << err_msg << std::endl;
+        std::cerr << "Error during sqlite exec: " << err_msg << std::endl;
         sqlite3_free(err_msg);
         throw DatabaseException();
     }
@@ -56,7 +56,7 @@ void SQLiteDatabaseManager::create_tables(sqlite3 *db)
     user_table = "CREATE TABLE IF NOT EXISTS USERS("
                  "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                  "IS_ADMIN       INT                   NOT NULL,"
-                 "USERNAME       VARCHAR(255)          NOT NULL,"
+                 "USERNAME       VARCHAR(255)          NOT NULL UNIQUE,"
                  "PASSWORD       VARCHAR(255)          NOT NULL,"
                  "FIRST_NAME     VARCHAR(255)          NOT NULL, "
                  "LAST_NAME      VARCHAR(255)          NOT NULL);";
