@@ -2,6 +2,7 @@
 #define __SQLITE_DATABASE_MANAGER_H_INCLUDED__
 
 #include <sqlite3.h>
+#include <string>
 
 /**
  * SQLite Database Manager class
@@ -18,6 +19,16 @@ public:
      * Close the database connection.
      */
     void close_database_connection(sqlite3 *db);
+
+    /**
+     * Execute a statement againts the database.
+     */
+    void execute_statement(sqlite3 *db, std::string sql_statement);
+
+    /**
+     * Create the neccessary tables if they don't exist.
+     */
+    void create_tables(sqlite3 *db);
 };
 
 #endif

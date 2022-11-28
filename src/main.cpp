@@ -1,6 +1,8 @@
 #include "character/melee/knight.h"
 #include "database_manager/sqlite_database_manager.h"
-#include "exceptions/database_connection_exception.h"
+#include "exceptions/database_exception.h"
+
+#include <services/user_service.h>
 
 #include <sqlite3.h>
 
@@ -17,6 +19,10 @@ int main()
     try
     {
         sqlite3 *db = db_manager.connect_to_database(DB_DIR_NAME);
+        db_manager.create_tables(db);
+
+        UserService user_service(db_manager, db);
+        user_service.create_user("messi_dan", "encrypted_pass", "messi", "dan");
 
         Knight attacker("Gosho", "Male", 50);
         Knight attacked("Pesho", "Male", 231);
@@ -32,7 +38,7 @@ int main()
 
         db_manager.close_database_connection(db);
     }
-    catch (DatabaseConnectionException e)
+    catch (DatabaseException e)
     {
         std::cout << e.what() << std::endl;
     }
