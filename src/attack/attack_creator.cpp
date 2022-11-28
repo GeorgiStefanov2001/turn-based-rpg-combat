@@ -13,5 +13,4 @@ std::map<std::string, std::map<std::string, double>> AttackCreator::get_availabl
 
 Attack AttackCreator::create_attack(std::string attack_name)
 {
-    // TODO
 }

@@ -1,4 +1,5 @@
 build/
+database/
 tests/build
 **/.DS_Store
 .vscode/

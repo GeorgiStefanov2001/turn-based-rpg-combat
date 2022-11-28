@@ -5,7 +5,14 @@ project(turn-based-rpg-combat-tests)
 set(CMAKE_CXX_STANDARD 14)
 
 # Executable for the project
-set(SOURCES src/main.cpp src/character/character.cpp src/character/melee/knight.cpp)
+set(
+  SOURCES 
+  src/main.cpp 
+  src/character/character.cpp 
+  src/character/melee/knight.cpp
+  src/database_manager/sqlite_database_manager.cpp
+  src/exceptions/database_connection_exception.cpp
+  )
 add_executable(
   project_exec
   ${SOURCES}
@@ -18,6 +25,13 @@ target_include_directories(
   ${INCLUDE_DIRS}
 )
 
+find_package (SQLite3)
+
+include_directories(${SQLite3_INCLUDE_DIRS})
+target_link_libraries (project_exec ${SQLite3_LIBRARIES})
+
+
+#Gtest
 include(FetchContent)
 FetchContent_Declare(
   googletest
