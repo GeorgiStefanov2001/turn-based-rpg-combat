@@ -5,11 +5,16 @@
 
 class User
 {
+    int id;
     bool is_admin;
     std::string username, password, first_name, last_name;
 
 public:
-    User(bool is_admin, std::string username, std::string password, std::string first_name, std::string last_name);
+    User();
+
+    User(int id, bool is_admin, std::string username, std::string password, std::string first_name, std::string last_name);
+
+    int get_id();
 
     bool get_is_admin();
 

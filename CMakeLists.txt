@@ -11,9 +11,10 @@ set(
   src/character/character.cpp 
   src/character/melee/knight.cpp
   src/users/user.cpp
-  src/services/user_service.cpp
-  src/database_manager/sqlite_database_manager.cpp
   src/exceptions/database_exception.cpp
+  src/services/user_service.cpp
+  src/controllers/user_controller.cpp
+  src/database_manager/sqlite_database_manager.cpp
   )
 add_executable(
   project_exec

@@ -21,14 +21,14 @@ public:
 
     std::list<User> list_users();
 
-    User create_user(std::string username,
+    void create_user(std::string username,
                      std::string password,
                      std::string first_name,
                      std::string last_name);
 
     void delete_user(User user);
 
-    User update_user(User user);
+    void update_user(User user);
 };
 
 #endif

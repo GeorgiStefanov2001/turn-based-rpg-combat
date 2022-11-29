@@ -1,7 +1,9 @@
-#include "character/melee/knight.h"
-#include "database_manager/sqlite_database_manager.h"
-#include "exceptions/database_exception.h"
+#include <character/melee/knight.h>
+#include <database_manager/sqlite_database_manager.h>
+#include <controllers/user_controller.h>
+#include <exceptions/database_exception.h>
 
+#include <users/user.h>
 #include <services/user_service.h>
 
 #include <sqlite3.h>
@@ -21,8 +23,10 @@ int main()
         sqlite3 *db = db_manager.connect_to_database(DB_DIR_NAME);
         db_manager.create_tables(db);
 
-        UserService user_service(db_manager, db);
-        user_service.create_user("messi_dan", "encrypted_pass", "messi", "dan");
+        UserController user_controller(db, db_manager);
+        User user;
+        user = user_controller.create_user();
+        std::cout << user.get_username() << std::endl;
 
         Knight attacker("Gosho", "Male", 50);
         Knight attacked("Pesho", "Male", 231);

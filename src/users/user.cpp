@@ -2,13 +2,23 @@
 
 #include <string>
 
-User::User(bool is_admin, std::string username, std::string password, std::string first_name, std::string last_name)
+User::User()
 {
+}
+
+User::User(int id, bool is_admin, std::string username, std::string password, std::string first_name, std::string last_name)
+{
+    this->id = id;
     this->is_admin = is_admin;
     this->username = username;
     this->password = password;
     this->first_name = first_name;
     this->last_name = last_name;
+}
+
+int User::get_id()
+{
+    return this->id;
 }
 
 bool User::get_is_admin()
