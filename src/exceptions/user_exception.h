@@ -9,8 +9,10 @@
  */
 class UserException : public std::exception
 {
+    char *err_msg;
 
 public:
+    UserException(char *err_msg);
     char *what();
 };
 

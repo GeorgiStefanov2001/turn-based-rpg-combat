@@ -31,8 +31,7 @@ User UserService::get_user(std::string username)
         if (user_data.size() == 0)
         {
             // user doesn't exist
-            std::cout << "User doesn't exist!" << std::endl;
-            throw UserException();
+            throw UserException("User doesn't exist!");
         }
 
         int id;

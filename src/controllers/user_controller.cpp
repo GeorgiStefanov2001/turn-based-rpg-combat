@@ -30,26 +30,44 @@ User UserController::register_user()
     std::cout << "Enter last_name: ";
     std::cin >> last_name;
 
+    bool user_exists = true;
     try
     {
-        this->service->create_user(username, password, first_name, last_name);
-        User user = this->service->get_user(username);
-        std::cout << "User " << username << " registered successfully!";
-        return user;
-    }
-    catch (DatabaseException e)
-    {
-        throw;
+        this->service->get_user(username);
     }
     catch (UserException e)
     {
-        throw;
+        // user doesnt't exist, we can continue
+        user_exists = false;
+    }
+
+    if (!user_exists)
+    {
+        try
+        {
+            this->service->create_user(username, password, first_name, last_name);
+            User user = this->service->get_user(username);
+            std::cout << "User " << username << " registered successfully!" << std::endl;
+            return user;
+        }
+        catch (DatabaseException e)
+        {
+            throw;
+        }
+        catch (UserException e)
+        {
+            throw;
+        }
+    }
+    else
+    {
+        throw UserException("User with given username already exists!");
     }
 }
 
 User UserController::login_user()
 {
-    std::cout << "Login\n"
+    std::cout << "\nLogin\n"
               << std::endl;
     std::string username, password;
     std::cout << "Enter username: ";
@@ -70,11 +88,11 @@ User UserController::login_user()
 
             if (counter >= 3)
             {
-                std::cout << "Maximum number of password retries hit! Exiting login screen..." << std::endl;
-                break;
+                throw UserException("Maximum number of password retries hit!");
             }
         }
 
+        std::cout << "Successfully logged in!" << std::endl;
         return user;
     }
     catch (DatabaseException e)

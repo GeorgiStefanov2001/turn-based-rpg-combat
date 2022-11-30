@@ -13,9 +13,12 @@ set(
   src/users/user.cpp
   src/exceptions/database_exception.cpp
   src/exceptions/user_exception.cpp
+  src/exceptions/program_exit_exception.cpp
   src/services/user_service.cpp
   src/controllers/user_controller.cpp
   src/database_manager/sqlite_database_manager.cpp
+  src/menus/startup_menu.cpp
+  src/menus/logged_in_menu.cpp
   )
 add_executable(
   project_exec

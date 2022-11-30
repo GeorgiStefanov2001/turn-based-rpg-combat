@@ -2,8 +2,13 @@
 
 #include <string>
 
+UserException::UserException(char *err_msg)
+{
+    this->err_msg = err_msg;
+}
+
 char *
 UserException::what()
 {
-    return "A user-related error occurred. Exiting with non-zero status...";
+    return this->err_msg;
 }

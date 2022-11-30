@@ -1,11 +1,13 @@
 #include <character/melee/knight.h>
+
+#include <menus/startup_menu.h>
+#include <menus/logged_in_menu.h>
+#include <users/user.h>
 #include <database_manager/sqlite_database_manager.h>
 #include <controllers/user_controller.h>
 #include <exceptions/database_exception.h>
 #include <exceptions/user_exception.h>
-
-#include <users/user.h>
-#include <services/user_service.h>
+#include <exceptions/program_exit_exception.h>
 
 #include <sqlite3.h>
 
@@ -18,40 +20,43 @@ const char *DB_DIR_NAME = "database/turn-based-rpg-combat";
 int main()
 {
     SQLiteDatabaseManager db_manager;
+    sqlite3 *db = db_manager.connect_to_database(DB_DIR_NAME);
+    User user;
+    StartupMenu startup_menu;
+    LoggedInMenu logged_in_menu;
+    bool logged_in = false;
+
     try
     {
-        sqlite3 *db = db_manager.connect_to_database(DB_DIR_NAME);
         db_manager.create_tables(db);
 
-        UserService service(db_manager, db);
+        while (true)
+        {
+            startup_menu.display(logged_in, user, db_manager, db);
+            logged_in_menu.display(logged_in, user, db_manager, db);
+        }
 
-        UserController user_controller(db, db_manager);
-        User user;
-        // user = user_controller.register_user);
-        user = user_controller.login_user();
-        std::cout << user.get_username() << std::endl;
+        // Knight attacker("Gosho", "Male", 50);
+        // Knight attacked("Pesho", "Male", 231);
 
-        Knight attacker("Gosho", "Male", 50);
-        Knight attacked("Pesho", "Male", 231);
+        // std::cout << attacker << std::endl;
 
-        std::cout << attacker << std::endl;
+        // std::map<std::string, int> attack_req;
+        // attack_req.insert(std::pair<std::string, int>("Strength", 10));
+        // attacker.attack(attacked, "slash", 15, 10, attack_req);
+        // std::cout << attacked.get_current_vigor() << std::endl;
 
-        std::map<std::string, int> attack_req;
-        attack_req.insert(std::pair<std::string, int>("Strength", 10));
-        attacker.attack(attacked, "slash", 15, 10, attack_req);
-        std::cout << attacked.get_current_vigor() << std::endl;
-
-        std::cout << attacker.get_available_attacks().at("short_slash").at("faith_req") << std::endl;
+        // std::cout << attacker.get_available_attacks().at("short_slash").at("faith_req") << std::endl;
 
         db_manager.close_database_connection(db);
     }
     catch (DatabaseException e)
     {
-        std::cout << "log: " << e.what() << std::endl;
+        std::cerr << "log: " << e.what() << std::endl;
     }
-    catch (UserException e)
+    catch (ProgramExitException e)
     {
-        std::cout << "log: " << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
     }
 
     return 0;
