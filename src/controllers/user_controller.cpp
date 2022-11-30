@@ -26,17 +26,15 @@ User UserController::create_user()
     std::cout << "Enter last_name: ";
     std::cin >> last_name;
 
-    User *user;
     try
     {
         this->service->create_user(username, password, first_name, last_name);
-        // TODO: use service->get_user()
-        user = new User(1, false, username, password, first_name, last_name);
+        User user = this->service->get_user(username);
+        return user;
     }
     catch (DatabaseException e)
     {
         std::cerr << "Error creating user! " << e.what() << std::endl;
+        throw;
     }
-
-    return *user;
 }

@@ -17,7 +17,6 @@ const char *DB_DIR_NAME = "database/turn-based-rpg-combat";
 int main()
 {
     SQLiteDatabaseManager db_manager;
-
     try
     {
         sqlite3 *db = db_manager.connect_to_database(DB_DIR_NAME);

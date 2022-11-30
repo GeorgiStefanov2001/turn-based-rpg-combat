@@ -6,11 +6,46 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <map>
+#include <sstream>
+#include <stdlib.h>
 
 UserService::UserService(SQLiteDatabaseManager database_manager, sqlite3 *db)
 {
     this->database_manager = database_manager;
     this->db = db;
+}
+
+User UserService::get_user(std::string username)
+{
+    std::map<std::string, std::string> user_data;
+    std::string select_statement;
+    select_statement = "SELECT * FROM USERS WHERE USERNAME='" + username + "';";
+
+    User *user;
+    try
+    {
+        user_data = this->database_manager.select(this->db, select_statement);
+
+        int id;
+        bool is_admin;
+
+        std::istringstream(user_data.at("IS_ADMIN")) >> is_admin;
+        id = atoi(user_data.at("ID").c_str());
+        user = new User(
+            id,
+            is_admin,
+            user_data.at("USERNAME"),
+            user_data.at("PASSWORD"),
+            user_data.at("FIRST_NAME"),
+            user_data.at("LAST_NAME"));
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+
+    return *user;
 }
 
 void UserService::create_user(

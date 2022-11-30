@@ -3,6 +3,7 @@
 
 #include <sqlite3.h>
 #include <string>
+#include <map>
 
 /**
  * SQLite Database Manager class
@@ -29,6 +30,8 @@ public:
      * Create the neccessary tables if they don't exist.
      */
     void create_tables(sqlite3 *db);
+
+    std::map<std::string, std::string> select(sqlite3 *db, std::string statement);
 };
 
 #endif

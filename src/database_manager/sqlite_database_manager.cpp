@@ -2,6 +2,8 @@
 #include <exceptions/database_exception.h>
 
 #include <iostream>
+#include <string>
+#include <map>
 
 sqlite3 *SQLiteDatabaseManager::connect_to_database(const char *db_dir_name)
 {
@@ -62,4 +64,51 @@ void SQLiteDatabaseManager::create_tables(sqlite3 *db)
                  "LAST_NAME      VARCHAR(255)          NOT NULL);";
 
     this->execute_statement(db, user_table);
+}
+
+std::map<std::string, std::string> SQLiteDatabaseManager::select(sqlite3 *db, std::string statement)
+{
+    int result;
+    sqlite3_stmt *stmt;
+    const unsigned char *col_value;
+    const char *col_name;
+    std::map<std::string, std::string> results;
+
+    result = sqlite3_prepare(db, statement.data(), -1, &stmt, NULL);
+
+    if (result != SQLITE_OK)
+    {
+        std::cerr << "Error while compiling SQL select statement: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        throw DatabaseException();
+    }
+
+    bool done = false;
+    while (!done)
+    {
+        switch (sqlite3_step(stmt))
+        {
+        case SQLITE_ROW:
+            for (int i = 0; i < sqlite3_data_count(stmt); i++)
+            {
+                col_name = sqlite3_column_name(stmt, i);
+                col_value = sqlite3_column_text(stmt, i);
+                std::string col_name_str = col_name;
+                std::string col_value_str = std::string(reinterpret_cast<const char *>(col_value));
+                results.insert({col_name_str,
+                                col_value_str});
+            }
+            break;
+        case SQLITE_DONE:
+            done = true;
+            break;
+        default:
+            std::cerr << "Failed when reading table rows...";
+            sqlite3_finalize(stmt);
+            throw DatabaseException();
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    return results;
 }

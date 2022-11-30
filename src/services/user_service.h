@@ -17,7 +17,7 @@ class UserService
 public:
     UserService(SQLiteDatabaseManager database_manager, sqlite3 *db);
 
-    User get();
+    User get_user(std::string username);
 
     std::list<User> list_users();
 
