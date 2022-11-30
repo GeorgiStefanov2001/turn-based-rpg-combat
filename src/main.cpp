@@ -2,6 +2,7 @@
 #include <database_manager/sqlite_database_manager.h>
 #include <controllers/user_controller.h>
 #include <exceptions/database_exception.h>
+#include <exceptions/user_exception.h>
 
 #include <users/user.h>
 #include <services/user_service.h>
@@ -22,9 +23,12 @@ int main()
         sqlite3 *db = db_manager.connect_to_database(DB_DIR_NAME);
         db_manager.create_tables(db);
 
+        UserService service(db_manager, db);
+
         UserController user_controller(db, db_manager);
         User user;
-        user = user_controller.create_user();
+        // user = user_controller.register_user);
+        user = user_controller.login_user();
         std::cout << user.get_username() << std::endl;
 
         Knight attacker("Gosho", "Male", 50);
@@ -43,7 +47,11 @@ int main()
     }
     catch (DatabaseException e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << "log: " << e.what() << std::endl;
+    }
+    catch (UserException e)
+    {
+        std::cout << "log: " << e.what() << std::endl;
     }
 
     return 0;

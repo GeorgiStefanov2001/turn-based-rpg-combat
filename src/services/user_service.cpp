@@ -1,7 +1,8 @@
 #include <users/user.h>
 #include "user_service.h"
 #include <database_manager/sqlite_database_manager.h>
-#include "exceptions/database_exception.h"
+#include <exceptions/database_exception.h>
+#include <exceptions/user_exception.h>
 
 #include <iostream>
 #include <string>
@@ -26,6 +27,13 @@ User UserService::get_user(std::string username)
     try
     {
         user_data = this->database_manager.select(this->db, select_statement);
+
+        if (user_data.size() == 0)
+        {
+            // user doesn't exist
+            std::cout << "User doesn't exist!" << std::endl;
+            throw UserException();
+        }
 
         int id;
         bool is_admin;
@@ -73,7 +81,7 @@ void UserService::delete_user(User user)
 {
     std::string delete_statement;
     std::string id_to_str = std::to_string(user.get_id());
-    delete_statement = "DELETE FROM USERS WHERE ID=" + id_to_str + ";";
+    delete_statement = "DELETE FROM USERS WHERE ID='" + id_to_str + "';";
 
     try
     {
@@ -89,9 +97,9 @@ void UserService::update_user(User user)
 {
     std::string update_statement;
     std::string id_to_str = std::to_string(user.get_id());
-    update_statement = "UPDATE USERS SET USERNAME = " + user.get_username() +
-                       ", PASSWORD = " + user.get_password() + ", FIRST_NAME = " +
-                       user.get_first_name() + ", LAST_NAME = " + user.get_last_name() + " WHERE ID=" + id_to_str + ";";
+    update_statement = "UPDATE USERS SET USERNAME = '" + user.get_username() +
+                       "', PASSWORD = '" + user.get_password() + "', FIRST_NAME = '" +
+                       user.get_first_name() + "', LAST_NAME = '" + user.get_last_name() + "' WHERE ID='" + id_to_str + "';";
 
     try
     {

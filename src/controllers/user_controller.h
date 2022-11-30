@@ -21,7 +21,9 @@ public:
 
     std::list<User> list_users();
 
-    User create_user();
+    User register_user();
+
+    User login_user();
 
     void delete_user();
 
