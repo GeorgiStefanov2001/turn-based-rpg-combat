@@ -55,7 +55,8 @@ void StartupMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db_
         }
         catch (UserException e)
         {
-            std::cout << e.what() << "\n"
+            std::cout << "\n"
+                      << e.what() << "\n"
                       << std::endl;
         }
     }

@@ -17,17 +17,15 @@ class UserController
 public:
     UserController(sqlite3 *db, SQLiteDatabaseManager db_manager);
 
-    User get_user();
-
     void list_users();
 
     User register_user();
 
     User login_user();
 
-    void delete_user();
+    void delete_user(User logged_user);
 
-    User update_user();
+    void update_user();
 };
 
 #endif

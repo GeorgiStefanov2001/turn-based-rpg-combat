@@ -61,8 +61,10 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
                 user_controller.list_users();
                 break;
             case 9:
+                user_controller.update_user();
                 break;
             case 10:
+                user_controller.delete_user(user);
                 break;
             default:
                 std::cout << "Invalid choice!" << std::endl;
@@ -75,7 +77,8 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
         }
         catch (UserException e)
         {
-            std::cout << e.what() << "\n"
+            std::cout << "\n"
+                      << e.what() << "\n"
                       << std::endl;
         }
     }

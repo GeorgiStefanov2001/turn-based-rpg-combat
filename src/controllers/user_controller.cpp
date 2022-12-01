@@ -134,3 +134,80 @@ void UserController::list_users()
         throw;
     }
 }
+
+void UserController::delete_user(User logged_user)
+{
+    std::string username;
+    std::cout << "\nDelete a user\n"
+              << std::endl;
+    std::cout << "Enter username of the user you wish to delete: ";
+    std::cin >> username;
+
+    while (logged_user.get_username().compare(username) == 0)
+    {
+        std::cout << "You can't delete yourself! Enter another username: ";
+        std::cin >> username;
+    }
+
+    try
+    {
+        User user = this->service->get_user(username);
+        this->service->delete_user(user);
+        std::cout << "User " << username << " deleted successfully!\n"
+                  << std::endl;
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+    catch (UserException e)
+    {
+        throw;
+    }
+}
+
+void UserController::update_user()
+{
+
+    std::string username, new_username, new_password, new_first_name, new_last_name;
+    std::cout << "\nUpdate a user\n"
+              << std::endl;
+    std::cout << "Enter username of the user you wish to update: ";
+    std::cin >> username;
+
+    try
+    {
+        User user = this->service->get_user(username);
+
+        std::cout << "Enter new username <enter 'same' to keep current>: ";
+        std::cin >> new_username;
+        std::cout << "Enter new password <enter 'same' to keep current>: ";
+        std::cin >> new_password;
+        std::cout << "Enter new first name <enter 'same' to keep current>: ";
+        std::cin >> new_first_name;
+        std::cout << "Enter new last name <enter 'same' to keep current>: ";
+        std::cin >> new_last_name;
+
+        new_username = (new_username.compare("same") == 0) ? user.get_username() : new_username;
+        new_password = (new_password.compare("same") == 0) ? user.get_password() : new_password;
+        new_first_name = (new_first_name.compare("same") == 0) ? user.get_first_name() : new_first_name;
+        new_last_name = (new_last_name.compare("same") == 0) ? user.get_last_name() : new_last_name;
+
+        user.set_username(new_username);
+        user.set_password(new_password);
+        user.set_first_name(new_first_name);
+        user.set_last_name(new_last_name);
+
+        this->service->update_user(user);
+        std::cout << "User " << username << " updated successfully!\n"
+                  << std::endl;
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+    catch (UserException e)
+    {
+        throw;
+    }
+}
