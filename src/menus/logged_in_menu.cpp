@@ -21,10 +21,19 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
 
     while (logged_in)
     {
-        std::cout << "1. new choice" << std::endl;
-        std::cout << "2. new choice" << std::endl;
-        std::cout << "3. Logout" << std::endl;
-        std::cout << "4. Exit" << std::endl;
+        std::cout << "1. Fight" << std::endl;
+        std::cout << "2. List my characters" << std::endl;
+        std::cout << "3. Delete character" << std::endl;
+        std::cout << "4. Update character" << std::endl;
+        std::cout << "5. Respec character" << std::endl;
+        std::cout << "6. Logout" << std::endl;
+        std::cout << "7. Exit" << std::endl;
+        if (user.get_is_admin())
+        {
+            std::cout << "[8]. List users" << std::endl;
+            std::cout << "[9]. Update user" << std::endl;
+            std::cout << "[10]. Delete user" << std::endl;
+        }
         std::cout << "\nEnter your choice: ";
         std::cin >> choice;
 
@@ -33,17 +42,27 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
             switch (choice)
             {
             case 1:
-                user = user_controller.login_user();
-                logged_in = true;
                 break;
             case 2:
-                user = user_controller.register_user();
                 break;
             case 3:
-                logged_in = false;
                 break;
             case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                logged_in = false;
+                break;
+            case 7:
                 throw ProgramExitException("Exiting...");
+                break;
+            case 8:
+                user_controller.list_users();
+                break;
+            case 9:
+                break;
+            case 10:
                 break;
             default:
                 std::cout << "Invalid choice!" << std::endl;

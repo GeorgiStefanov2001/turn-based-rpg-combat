@@ -19,7 +19,7 @@ public:
 
     User get_user();
 
-    std::list<User> list_users();
+    void list_users();
 
     User register_user();
 

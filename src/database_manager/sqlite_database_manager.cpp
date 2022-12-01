@@ -66,13 +66,15 @@ void SQLiteDatabaseManager::create_tables(sqlite3 *db)
     this->execute_statement(db, user_table);
 }
 
-std::map<std::string, std::string> SQLiteDatabaseManager::select(sqlite3 *db, std::string statement)
+std::map<int, std::map<std::string, std::string>>
+SQLiteDatabaseManager::select(sqlite3 *db, std::string statement)
 {
     int result;
     sqlite3_stmt *stmt;
     const unsigned char *col_value;
     const char *col_name;
-    std::map<std::string, std::string> results;
+    std::map<std::string, std::string> row_results;
+    std::map<int, std::map<std::string, std::string>> results;
 
     result = sqlite3_prepare(db, statement.data(), -1, &stmt, NULL);
 
@@ -84,20 +86,24 @@ std::map<std::string, std::string> SQLiteDatabaseManager::select(sqlite3 *db, st
     }
 
     bool done = false;
+    int row = 1;
     while (!done)
     {
         switch (sqlite3_step(stmt))
         {
         case SQLITE_ROW:
+            row_results.clear();
             for (int i = 0; i < sqlite3_data_count(stmt); i++)
             {
                 col_name = sqlite3_column_name(stmt, i);
                 col_value = sqlite3_column_text(stmt, i);
                 std::string col_name_str = col_name;
                 std::string col_value_str = std::string(reinterpret_cast<const char *>(col_value));
-                results.insert({col_name_str,
-                                col_value_str});
+                row_results.insert({col_name_str,
+                                    col_value_str});
             }
+            results.insert({row, row_results});
+            row++;
             break;
         case SQLITE_DONE:
             done = true;

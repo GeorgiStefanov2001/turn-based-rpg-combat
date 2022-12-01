@@ -19,7 +19,7 @@ User UserController::register_user()
 {
     std::string username, password, first_name, last_name;
 
-    std::cout << "Register user\n"
+    std::cout << "\nRegister user\n"
               << std::endl;
     std::cout << "Enter username: ";
     std::cin >> username;
@@ -47,7 +47,8 @@ User UserController::register_user()
         {
             this->service->create_user(username, password, first_name, last_name);
             User user = this->service->get_user(username);
-            std::cout << "User " << username << " registered successfully!" << std::endl;
+            std::cout << "User " << username << " registered successfully!\n"
+                      << std::endl;
             return user;
         }
         catch (DatabaseException e)
@@ -92,8 +93,37 @@ User UserController::login_user()
             }
         }
 
-        std::cout << "Successfully logged in!" << std::endl;
+        std::cout << "Successfully logged in!\n"
+                  << std::endl;
         return user;
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+    catch (UserException e)
+    {
+        throw;
+    }
+}
+
+void UserController::list_users()
+{
+    std::cout << "\nListing all users...\n"
+              << std::endl;
+
+    try
+    {
+        std::list<User> users = this->service->list_users();
+
+        std::list<User>::iterator it;
+        for (it = users.begin(); it != users.end(); it++)
+        {
+            std::cout << "- " << it->get_username() << ": "
+                      << it->get_first_name() << " "
+                      << it->get_last_name() << std::endl;
+        }
+        std::cout << "\n";
     }
     catch (DatabaseException e)
     {
