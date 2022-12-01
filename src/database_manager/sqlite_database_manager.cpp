@@ -54,7 +54,7 @@ void SQLiteDatabaseManager::execute_statement(sqlite3 *db, std::string sql_state
 
 void SQLiteDatabaseManager::create_tables(sqlite3 *db)
 {
-    std::string user_table;
+    std::string user_table, character_table;
     user_table = "CREATE TABLE IF NOT EXISTS USERS("
                  "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                  "IS_ADMIN       INT                   NOT NULL,"
@@ -63,7 +63,22 @@ void SQLiteDatabaseManager::create_tables(sqlite3 *db)
                  "FIRST_NAME     VARCHAR(255)          NOT NULL, "
                  "LAST_NAME      VARCHAR(255)          NOT NULL);";
 
+    character_table = "CREATE TABLE IF NOT EXISTS CHARACTERS("
+                      "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                      "CLASS          VARCHAR(255)          NOT NULL,"
+                      "NAME           VARCHAR(255)          NOT NULL ,"
+                      "GENDER         VARCHAR(255)          NOT NULL,"
+                      "AGE            INT                   NOT NULL,"
+                      "LEVEL          INT                   NOT NULL,"
+                      "VIGOR          INT                   NOT NULL,"
+                      "ENDURANCE      INT                   NOT NULL,"
+                      "STRENGTH       INT                   NOT NULL,"
+                      "DEXTERITY      INT                   NOT NULL,"
+                      "INTELIGENCE    INT                   NOT NULL,"
+                      "FAITH          INT                   NOT NULL);";
+
     this->execute_statement(db, user_table);
+    this->execute_statement(db, character_table);
 }
 
 std::map<int, std::map<std::string, std::string>>

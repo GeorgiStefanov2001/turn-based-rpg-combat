@@ -1,7 +1,7 @@
 #ifndef __USER_SERVICE_H_INCLUDED__
 #define __USER_SERVICE_H_INCLUDED__
 
-#include <users/user.h>
+#include <user/user.h>
 #include <database_manager/sqlite_database_manager.h>
 
 #include <sqlite3.h>

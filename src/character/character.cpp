@@ -54,6 +54,16 @@ void Character::set_current_endurance(int endurance)
     this->current_endurance = endurance;
 }
 
+int Character::get_current_xp()
+{
+    return this->current_xp;
+}
+
+void Character::set_current_xp(int xp)
+{
+    this->current_xp = xp;
+}
+
 std::map<std::string, std::map<std::string, double>> Character::get_available_attacks()
 {
     return this->available_attacks;

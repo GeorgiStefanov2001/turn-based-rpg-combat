@@ -10,12 +10,16 @@ set(
   src/main.cpp 
   src/character/character.cpp 
   src/character/melee/knight.cpp
-  src/users/user.cpp
+  src/user/user.cpp
   src/exceptions/database_exception.cpp
   src/exceptions/user_exception.cpp
+  src/exceptions/character_exception.cpp
   src/exceptions/program_exit_exception.cpp
   src/services/user_service.cpp
+  src/services/character_service.cpp
+  src/services/knight_service.cpp
   src/controllers/user_controller.cpp
+  src/controllers/character_controller.cpp
   src/database_manager/sqlite_database_manager.cpp
   src/menus/startup_menu.cpp
   src/menus/logged_in_menu.cpp

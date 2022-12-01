@@ -1,17 +1,28 @@
 #include "knight.h"
 
-Knight::Knight(std::string name, std::string gender, int age)
+#include <iostream>
+
+Knight::Knight(std::string name,
+               std::string gender,
+               int age,
+               int level,
+               int vigor,
+               int endurance,
+               int strength,
+               int dexterity,
+               int inteligence,
+               int faith)
     : Character("Knight",
                 name,
                 gender,
                 age,
-                this->starting_attributes::level,
-                this->starting_attributes::vigor,
-                this->starting_attributes::endurance,
-                this->starting_attributes::strength,
-                this->starting_attributes::dexterity,
-                this->starting_attributes::inteligence,
-                this->starting_attributes::faith)
+                level,
+                vigor,
+                endurance,
+                strength,
+                dexterity,
+                inteligence,
+                faith)
 {
     this->load_all_attacks();
 }
@@ -42,4 +53,9 @@ static const std::map<std::string, std::map<std::string, double>> KNIGHT_AVAILAB
 void Knight::load_all_attacks()
 {
     this->set_available_attacks(KNIGHT_AVAILABLE_ATTACKS);
+}
+
+void Knight::print_knight()
+{
+    std::cout << "i am knight";
 }

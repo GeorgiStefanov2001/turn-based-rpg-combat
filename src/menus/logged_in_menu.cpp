@@ -1,9 +1,11 @@
 #include "logged_in_menu.h"
-#include <users/user.h>
+#include <user/user.h>
 #include <database_manager/sqlite_database_manager.h>
 #include <controllers/user_controller.h>
+#include <controllers/character_controller.h>
 #include <exceptions/database_exception.h>
 #include <exceptions/user_exception.h>
+#include <exceptions/character_exception.h>
 #include <exceptions/program_exit_exception.h>
 
 #include <sqlite3.h>
@@ -14,6 +16,7 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
 {
     int choice = 0;
     UserController user_controller(db, db_manager);
+    CharacterController charcater_controller(db, db_manager);
 
     std::cout
         << "\nWelcome, " << user.get_first_name() << "!\n"
@@ -22,17 +25,18 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
     while (logged_in)
     {
         std::cout << "1. Fight" << std::endl;
-        std::cout << "2. List my characters" << std::endl;
-        std::cout << "3. Delete character" << std::endl;
-        std::cout << "4. Update character" << std::endl;
-        std::cout << "5. Respec character" << std::endl;
-        std::cout << "6. Logout" << std::endl;
-        std::cout << "7. Exit" << std::endl;
+        std::cout << "2. Create character" << std::endl;
+        std::cout << "3. List my characters" << std::endl;
+        std::cout << "4. Delete character" << std::endl;
+        std::cout << "5. Update character" << std::endl;
+        std::cout << "6. Respec character" << std::endl;
+        std::cout << "7. Logout" << std::endl;
+        std::cout << "8. Exit" << std::endl;
         if (user.get_is_admin())
         {
-            std::cout << "[8]. List users" << std::endl;
-            std::cout << "[9]. Update user" << std::endl;
-            std::cout << "[10]. Delete user" << std::endl;
+            std::cout << "[9]. List users" << std::endl;
+            std::cout << "[10]. Update user" << std::endl;
+            std::cout << "[11]. Delete user" << std::endl;
         }
         std::cout << "\nEnter your choice: ";
         std::cin >> choice;
@@ -44,6 +48,7 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
             case 1:
                 break;
             case 2:
+                charcater_controller.create_character(user);
                 break;
             case 3:
                 break;
@@ -52,18 +57,20 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
             case 5:
                 break;
             case 6:
-                logged_in = false;
                 break;
             case 7:
-                throw ProgramExitException("Exiting...");
+                logged_in = false;
                 break;
             case 8:
-                user_controller.list_users();
+                throw ProgramExitException("Exiting...");
                 break;
             case 9:
-                user_controller.update_user();
+                user_controller.list_users();
                 break;
             case 10:
+                user_controller.update_user();
+                break;
+            case 11:
                 user_controller.delete_user(user);
                 break;
             default:

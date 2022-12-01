@@ -11,19 +11,6 @@
  */
 class Knight : public Character
 {
-    /**
-     * Enum that contains the starting attributes of the Knight class
-     */
-    enum starting_attributes
-    {
-        level = 9,
-        vigor = 12,
-        endurance = 11,
-        strength = 13,
-        dexterity = 12,
-        inteligence = 9,
-        faith = 9
-    };
 
     /**
      * Load up all the available attacks from a map structure.
@@ -39,7 +26,16 @@ public:
      * @param[in] gender the gender of the knight that will be created
      * @param[in] age the age of the knight that will be created
      */
-    Knight(std::string name, std::string gender, int age);
+    Knight(std::string name,
+           std::string gender,
+           int age,
+           int level,
+           int vigor,
+           int endurance,
+           int strength,
+           int dexterity,
+           int inteligence,
+           int faith);
 
     /**
      * Attack another knight and deal certain amount of damage (depletes the enemy's vigor).
@@ -57,6 +53,8 @@ public:
     //             double damage_dealt,
     //             double endurance_consumption,
     //             std::map<std::string, int> attack_requirements);
+
+    void print_knight();
 };
 
 #endif

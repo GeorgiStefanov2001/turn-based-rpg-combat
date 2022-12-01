@@ -26,7 +26,7 @@ class Character
     /**
      * Fields that relate to the dynamically changing character status
      */
-    int current_vigor, current_endurance;
+    int current_vigor, current_endurance, current_xp;
 
     /**
      * A map of maps that contains all the available attacks this class has.
@@ -95,6 +95,13 @@ protected:
     void set_current_endurance(int endurance);
 
     /**
+     * Set the current xp of the character to a given value
+     *
+     * @param[in] xp the value to which the current xp attribute of this Character instance will be set
+     */
+    void set_current_xp(int xp);
+
+    /**
      * Set the available attacks of the character to a given value
      *
      * @param[in] available_attacks the value to which the available attacks map attribute of this Character instance will be set
@@ -122,6 +129,13 @@ public:
      * @returns the current endurance attribute of this Character instance
      */
     int get_current_endurance();
+
+    /**
+     * Get the current xp of the character
+     *
+     * @returns the current xp attribute of this Character instance
+     */
+    int get_current_xp();
 
     /**
      * Get the available attacks of the character

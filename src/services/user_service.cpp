@@ -1,4 +1,4 @@
-#include <users/user.h>
+#include <user/user.h>
 #include "user_service.h"
 #include <database_manager/sqlite_database_manager.h>
 #include <exceptions/database_exception.h>

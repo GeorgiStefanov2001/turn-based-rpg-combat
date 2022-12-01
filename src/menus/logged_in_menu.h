@@ -2,7 +2,7 @@
 #define __LOGGED_IN_MENU_H_INCLUDED__
 
 #include "menu.h"
-#include <users/user.h>
+#include <user/user.h>
 #include <database_manager/sqlite_database_manager.h>
 
 #include <sqlite3.h>

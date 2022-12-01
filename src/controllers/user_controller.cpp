@@ -1,5 +1,5 @@
 #include "user_controller.h"
-#include <users/user.h>
+#include <user/user.h>
 #include <services/user_service.h>
 #include <database_manager/sqlite_database_manager.h>
 #include <exceptions/database_exception.h>
@@ -188,6 +188,9 @@ void UserController::update_user()
         std::cout << "Enter new last name <enter 'same' to keep current>: ";
         std::cin >> new_last_name;
 
+        /**
+         * Extremely beautiful logic follows :)
+         */
         new_username = (new_username.compare("same") == 0) ? user.get_username() : new_username;
         new_password = (new_password.compare("same") == 0) ? user.get_password() : new_password;
         new_first_name = (new_first_name.compare("same") == 0) ? user.get_first_name() : new_first_name;
