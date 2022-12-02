@@ -16,7 +16,7 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
 {
     int choice = 0;
     UserController user_controller(db, db_manager);
-    CharacterController charcater_controller(db, db_manager);
+    CharacterController character_controller(db, db_manager);
 
     std::cout
         << "\nWelcome, " << user.get_first_name() << "!\n"
@@ -41,6 +41,9 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
         std::cout << "\nEnter your choice: ";
         std::cin >> choice;
 
+        std::cout << "\n* - * - *\n"
+                  << std::endl;
+
         try
         {
             switch (choice)
@@ -48,18 +51,23 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
             case 1:
                 break;
             case 2:
-                charcater_controller.create_character(user);
+                character_controller.create_character(user);
                 break;
             case 3:
-                charcater_controller.list_character_for_user(user);
+                character_controller.list_character_for_user(user);
                 break;
             case 4:
+                character_controller.delete_character(user);
                 break;
             case 5:
+                character_controller.update_character(user);
                 break;
             case 6:
                 break;
             case 7:
+                std::cout << "Logging out ..." << std::endl;
+                std::cout << "\n* - * - *\n"
+                          << std::endl;
                 logged_in = false;
                 break;
             case 8:
@@ -76,6 +84,8 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
                 break;
             default:
                 std::cout << "Invalid choice!" << std::endl;
+                std::cout << "* - * - *\n"
+                          << std::endl;
                 break;
             }
         }
@@ -88,11 +98,15 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
             std::cout << "\n"
                       << e.what() << "\n"
                       << std::endl;
+            std::cout << "* - * - *\n"
+                      << std::endl;
         }
         catch (CharacterException e)
         {
             std::cout << "\n"
                       << e.what() << "\n"
+                      << std::endl;
+            std::cout << "* - * - *\n"
                       << std::endl;
         }
     }

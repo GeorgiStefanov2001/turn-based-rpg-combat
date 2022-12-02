@@ -17,6 +17,8 @@ class UserService
 public:
     UserService(SQLiteDatabaseManager database_manager, sqlite3 *db);
 
+    User *create_user_from_data(std::map<std::string, std::string> user_data);
+
     User get_user(std::string username);
 
     std::list<User> list_users();

@@ -41,7 +41,7 @@ void CharacterController::create_character(User current_user)
     bool character_exists = true;
     try
     {
-        this->char_service->get_character_data(name, current_user);
+        this->char_service->get_character(name, current_user);
     }
     catch (CharacterException e)
     {
@@ -66,7 +66,9 @@ void CharacterController::create_character(User current_user)
             case 1:
                 // Knight
                 this->knight_service->create_knight(name, gender, age, current_user);
-                std::cout << "Knight " << name << " created successfully!\n"
+                std::cout << "\nKnight " << name << " created successfully!\n"
+                          << std::endl;
+                std::cout << "* - * - *\n"
                           << std::endl;
                 break;
             case 2:
@@ -76,7 +78,9 @@ void CharacterController::create_character(User current_user)
                 // Paladin
                 break;
             default:
-                std::cout << "Invalid character class!" << std::endl;
+                std::cout << "\nInvalid character class!" << std::endl;
+                std::cout << "* - * - *\n"
+                          << std::endl;
                 break;
             }
         }
@@ -112,6 +116,85 @@ void CharacterController::list_character_for_user(User current_user)
             std::cout << character << std::endl;
         }
         std::cout << "\n";
+        std::cout << "* - * - *\n"
+                  << std::endl;
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+    catch (CharacterException e)
+    {
+        throw;
+    }
+}
+
+void CharacterController::delete_character(User current_user)
+{
+    std::string name;
+    std::cout << "\nDelete a character\n"
+              << std::endl;
+    std::cout << "Enter name of your character you wish to delete: ";
+    std::cin >> name;
+
+    try
+    {
+        Character character = this->char_service->get_character(name, current_user);
+        this->char_service->delete_character(character);
+        std::cout << "\nCharacter " << name << " deleted successfully!\n"
+                  << std::endl;
+        std::cout << "* - * - *\n"
+                  << std::endl;
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+    catch (CharacterException e)
+    {
+        throw;
+    }
+}
+
+void CharacterController::update_character(User current_user)
+{
+    std::string name, new_name, new_gender;
+    int new_age;
+    std::cout << "\nUpdate character's details\n"
+              << std::endl;
+    std::cout << "Enter name of your character you wish to update: ";
+    std::cin >> name;
+
+    try
+    {
+        Character character = this->char_service->get_character(name, current_user);
+
+        std::cout << "Enter new name <enter 'same' to keep current>: ";
+        std::cin >> new_name;
+        std::cout << "Enter new gender <enter 'same' to keep current>: ";
+        std::cin >> new_gender;
+        do
+        {
+            std::cout << "Enter non-negative new age <enter '-1' to keep current>: ";
+            std::cin >> new_age;
+        } while (new_age == 0 || new_age < -1);
+
+        /**
+         * Extremely beautiful logic follows :)
+         */
+        new_name = (new_name.compare("same") == 0) ? character.get_name() : new_name;
+        new_gender = (new_gender.compare("same") == 0) ? character.get_gender() : new_gender;
+        new_age = (new_age == -1) ? character.get_age() : new_age;
+
+        character.set_name(new_name);
+        character.set_gender(new_gender);
+        character.set_age(new_age);
+
+        this->char_service->update_character(character);
+        std::cout << "\nCharacter " << name << " updated successfully!\n"
+                  << std::endl;
+        std::cout << "* - * - *\n"
+                  << std::endl;
     }
     catch (DatabaseException e)
     {

@@ -22,11 +22,9 @@ public:
 
     void create_character(User current_user);
 
-    // User login_user();
+    void delete_character(User current_user);
 
-    // void delete_user(User logged_user);
-
-    // void update_user();
+    void update_character(User current_user);
 };
 
 #endif

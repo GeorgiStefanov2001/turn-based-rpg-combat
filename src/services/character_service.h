@@ -19,7 +19,9 @@ class CharacterService
 public:
     CharacterService(SQLiteDatabaseManager database_manager, sqlite3 *db);
 
-    std::map<std::string, std::string> get_character_data(std::string name, User owner);
+    Character *create_character_from_data(std::map<std::string, std::string> character_data);
+
+    Character get_character(std::string name, User owner);
 
     std::list<Character> list_characters_for_user(User owner);
 

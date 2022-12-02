@@ -52,7 +52,7 @@ int main()
     }
     catch (DatabaseException e)
     {
-        std::cerr << "log: " << e.what() << std::endl;
+        std::cerr << "DB ERROR: " << e.what() << std::endl;
     }
     catch (ProgramExitException e)
     {

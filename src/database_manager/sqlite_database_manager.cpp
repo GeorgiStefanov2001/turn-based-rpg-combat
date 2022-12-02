@@ -11,9 +11,6 @@ sqlite3 *SQLiteDatabaseManager::connect_to_database(const char *db_dir_name)
     sqlite3 *db;
     int result;
 
-    // TODO: Actual logging
-    std::cout << "log: Trying to connect to database..." << std::endl;
-
     result = sqlite3_open(db_dir_name, &db);
 
     if (result)
@@ -22,15 +19,11 @@ sqlite3 *SQLiteDatabaseManager::connect_to_database(const char *db_dir_name)
         throw DatabaseException();
     }
 
-    std::cout << "log: Successfully connected to database.\n"
-              << std::endl;
-
     return db;
 }
 
 void SQLiteDatabaseManager::close_database_connection(sqlite3 *db)
 {
-    std::cout << "log: Closing database connection..." << std::endl;
     sqlite3_close(db);
 }
 
@@ -47,9 +40,6 @@ void SQLiteDatabaseManager::execute_statement(sqlite3 *db, std::string sql_state
         sqlite3_free(err_msg);
         throw DatabaseException();
     }
-
-    std::cout << "log: Successfully executed SQL statement.\n"
-              << std::endl;
 }
 
 void SQLiteDatabaseManager::create_tables(sqlite3 *db)

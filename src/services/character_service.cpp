@@ -11,7 +11,45 @@ CharacterService::CharacterService(SQLiteDatabaseManager database_manager, sqlit
     this->db = db;
 }
 
-std::map<std::string, std::string> CharacterService::get_character_data(std::string name, User owner)
+Character *CharacterService::create_character_from_data(std::map<std::string, std::string> character_data)
+{
+    Character *character;
+
+    int id, age, level, vigor, endurance, strength, dexterity, inteligence, faith;
+    std::string name, gender, character_class;
+    /**
+     * Beautiful code handling incoming...
+     */
+    id = atoi(character_data.at("ID").c_str());
+    name = character_data.at("NAME");
+    gender = character_data.at("GENDER");
+    character_class = character_data.at("CLASS");
+    age = atoi(character_data.at("AGE").c_str());
+    level = atoi(character_data.at("LEVEL").c_str());
+    vigor = atoi(character_data.at("VIGOR").c_str());
+    endurance = atoi(character_data.at("ENDURANCE").c_str());
+    strength = atoi(character_data.at("STRENGTH").c_str());
+    dexterity = atoi(character_data.at("DEXTERITY").c_str());
+    inteligence = atoi(character_data.at("INTELIGENCE").c_str());
+    faith = atoi(character_data.at("FAITH").c_str());
+
+    if (character_class.compare("Knight") == 0)
+    {
+        character = new Knight(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
+    }
+    else if (character_class.compare("Wizard") == 0)
+    {
+        // TODO
+    }
+    else if (character_class.compare("Paladin") == 0)
+    {
+        // TODO
+    }
+
+    return character;
+}
+
+Character CharacterService::get_character(std::string name, User owner)
 {
 
     std::map<int, std::map<std::string, std::string>> ret;
@@ -19,6 +57,7 @@ std::map<std::string, std::string> CharacterService::get_character_data(std::str
     std::string select_statement;
     select_statement = "SELECT * FROM CHARACTERS WHERE NAME='" + name + "' AND USER_ID = " + std::to_string(owner.get_id()) + ";";
 
+    Character *character;
     try
     {
         ret = this->database_manager.select(this->db, select_statement);
@@ -34,13 +73,14 @@ std::map<std::string, std::string> CharacterService::get_character_data(std::str
          * this would be our character
          */
         character_data = ret.at(1);
+        character = this->create_character_from_data(character_data);
     }
     catch (DatabaseException e)
     {
         throw;
     }
 
-    return character_data;
+    return *character;
 }
 
 std::list<Character> CharacterService::list_characters_for_user(User owner)
@@ -65,44 +105,12 @@ std::list<Character> CharacterService::list_characters_for_user(User owner)
 
         for (int i = 1; i <= ret.size(); i++)
         {
-
-            int id, age, level, vigor, endurance, strength, dexterity, inteligence, faith;
-            std::string name, gender;
-
             /**
              * iterate over all the returned characters
              */
 
             character_data = ret.at(i);
-
-            /**
-             * More beautiful code handling incoming...
-             */
-            id = atoi(character_data.at("ID").c_str());
-            name = character_data.at("NAME");
-            gender = character_data.at("GENDER");
-            age = atoi(character_data.at("AGE").c_str());
-            level = atoi(character_data.at("LEVEL").c_str());
-            vigor = atoi(character_data.at("VIGOR").c_str());
-            endurance = atoi(character_data.at("ENDURANCE").c_str());
-            strength = atoi(character_data.at("STRENGTH").c_str());
-            dexterity = atoi(character_data.at("DEXTERITY").c_str());
-            inteligence = atoi(character_data.at("INTELIGENCE").c_str());
-            faith = atoi(character_data.at("FAITH").c_str());
-
-            std::string character_class = character_data.at("CLASS");
-            if (character_class.compare("Knight") == 0)
-            {
-                character = new Knight(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
-            }
-            else if (character_class.compare("Wizard") == 0)
-            {
-                // TODO
-            }
-            else if (character_class.compare("Paladin") == 0)
-            {
-                // TODO
-            }
+            character = this->create_character_from_data(character_data);
             characters.push_back(*character);
         }
     }
@@ -138,6 +146,38 @@ void CharacterService::create_character(std::string character_class,
     try
     {
         this->database_manager.execute_statement(this->db, insert_statement);
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+}
+
+void CharacterService::delete_character(Character character)
+{
+    std::string delete_statement;
+    delete_statement = "DELETE FROM CHARACTERS WHERE ID='" + std::to_string(character.get_id()) + "';";
+
+    try
+    {
+        this->database_manager.execute_statement(this->db, delete_statement);
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+}
+
+void CharacterService::update_character(Character character)
+{
+    std::string update_statement;
+    update_statement = "UPDATE CHARACTERS SET NAME = '" + character.get_name() +
+                       "', GENDER = '" + character.get_gender() + "', AGE = '" +
+                       std::to_string(character.get_age()) + "' WHERE ID='" + std::to_string(character.get_id()) + "';";
+
+    try
+    {
+        this->database_manager.execute_statement(this->db, update_statement);
     }
     catch (DatabaseException e)
     {

@@ -30,6 +30,9 @@ void StartupMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db_
         std::cout << "\nEnter your choice: ";
         std::cin >> choice;
 
+        std::cout << "\n* - * - *\n"
+                  << std::endl;
+
         try
         {
             switch (choice)
@@ -46,6 +49,8 @@ void StartupMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db_
                 break;
             default:
                 std::cout << "Invalid choice!" << std::endl;
+                std::cout << "\n* - * - *\n"
+                          << std::endl;
                 break;
             }
         }
@@ -57,6 +62,8 @@ void StartupMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db_
         {
             std::cout << "\n"
                       << e.what() << "\n"
+                      << std::endl;
+            std::cout << "* - * - *\n"
                       << std::endl;
         }
     }

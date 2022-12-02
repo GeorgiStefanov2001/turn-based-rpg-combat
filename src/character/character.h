@@ -125,6 +125,28 @@ public:
      */
     std::string get_name();
 
+    void set_name(std::string name);
+
+    /**
+     * Get the gender of the character
+     *
+     * @returns the gender of this Character instance as a string
+     */
+    std::string get_gender();
+
+    void set_gender(std::string gender);
+
+    /**
+     * Get the age of the character
+     *
+     * @returns the age of this Character instance as a string
+     */
+    int get_age();
+
+    void set_age(int age);
+
+    // TODO: Add getter/setters for the other atributes (setter used when leveling up)
+
     /**
      * Get the current vigor of the character
      *

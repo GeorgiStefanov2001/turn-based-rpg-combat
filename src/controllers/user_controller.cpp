@@ -25,9 +25,9 @@ User UserController::register_user()
     std::cin >> username;
     std::cout << "Enter password: ";
     std::cin >> password;
-    std::cout << "Enter first_name: ";
+    std::cout << "Enter first name: ";
     std::cin >> first_name;
-    std::cout << "Enter last_name: ";
+    std::cout << "Enter last name: ";
     std::cin >> last_name;
 
     bool user_exists = true;
@@ -47,7 +47,9 @@ User UserController::register_user()
         {
             this->service->create_user(username, password, first_name, last_name);
             User user = this->service->get_user(username);
-            std::cout << "User " << username << " registered successfully!\n"
+            std::cout << "\nUser " << username << " registered successfully!\n"
+                      << std::endl;
+            std::cout << "* - * - *\n"
                       << std::endl;
             return user;
         }
@@ -93,7 +95,9 @@ User UserController::login_user()
             }
         }
 
-        std::cout << "Successfully logged in!\n"
+        std::cout << "\nSuccessfully logged in!\n"
+                  << std::endl;
+        std::cout << "* - * - *\n"
                   << std::endl;
         return user;
     }
@@ -124,6 +128,8 @@ void UserController::list_users()
                       << it->get_last_name() << std::endl;
         }
         std::cout << "\n";
+        std::cout << "* - * - *\n"
+                  << std::endl;
     }
     catch (DatabaseException e)
     {
@@ -153,7 +159,9 @@ void UserController::delete_user(User logged_user)
     {
         User user = this->service->get_user(username);
         this->service->delete_user(user);
-        std::cout << "User " << username << " deleted successfully!\n"
+        std::cout << "\nUser " << username << " deleted successfully!\n"
+                  << std::endl;
+        std::cout << "* - * - *\n"
                   << std::endl;
     }
     catch (DatabaseException e)
@@ -202,7 +210,9 @@ void UserController::update_user()
         user.set_last_name(new_last_name);
 
         this->service->update_user(user);
-        std::cout << "User " << username << " updated successfully!\n"
+        std::cout << "\nUser " << username << " updated successfully!\n"
+                  << std::endl;
+        std::cout << "* - * - *\n"
                   << std::endl;
     }
     catch (DatabaseException e)

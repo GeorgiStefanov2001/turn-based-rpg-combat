@@ -18,6 +18,26 @@ UserService::UserService(SQLiteDatabaseManager database_manager, sqlite3 *db)
     this->db = db;
 }
 
+User *UserService::create_user_from_data(std::map<std::string, std::string> user_data)
+{
+    User *user;
+
+    int id;
+    bool is_admin;
+    std::string username, password, first_name, last_name;
+
+    is_admin = atoi(user_data.at("IS_ADMIN").c_str());
+    id = atoi(user_data.at("ID").c_str());
+    username = user_data.at("USERNAME");
+    password = user_data.at("PASSWORD");
+    first_name = user_data.at("FIRST_NAME");
+    last_name = user_data.at("LAST_NAME");
+
+    user = new User(id, is_admin, username, password, first_name, last_name);
+
+    return user;
+}
+
 User UserService::get_user(std::string username)
 {
     std::map<int, std::map<std::string, std::string>> ret;
@@ -36,24 +56,12 @@ User UserService::get_user(std::string username)
             throw UserException("User doesn't exist!");
         }
 
-        int id;
-        bool is_admin;
-
         /**
          * get the first and only element of the map of maps;
          * this would be our user
          */
         user_data = ret.at(1);
-
-        is_admin = atoi(user_data.at("IS_ADMIN").c_str());
-        id = atoi(user_data.at("ID").c_str());
-        user = new User(
-            id,
-            is_admin,
-            user_data.at("USERNAME"),
-            user_data.at("PASSWORD"),
-            user_data.at("FIRST_NAME"),
-            user_data.at("LAST_NAME"));
+        user = this->create_user_from_data(user_data);
     }
     catch (DatabaseException e)
     {
@@ -85,23 +93,11 @@ std::list<User> UserService::list_users()
 
         for (int i = 1; i <= ret.size(); i++)
         {
-            int id;
-            bool is_admin;
-
             /**
              * iterate over all the returned users
              */
             user_data = ret.at(i);
-
-            is_admin = atoi(user_data.at("IS_ADMIN").c_str());
-            id = atoi(user_data.at("ID").c_str());
-            user = new User(
-                id,
-                is_admin,
-                user_data.at("USERNAME"),
-                user_data.at("PASSWORD"),
-                user_data.at("FIRST_NAME"),
-                user_data.at("LAST_NAME"));
+            user = this->create_user_from_data(user_data);
 
             users.push_back(*user);
         }

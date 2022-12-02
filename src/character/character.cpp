@@ -41,6 +41,31 @@ std::string Character::get_name()
     return this->name;
 }
 
+void Character::set_name(std::string name)
+{
+    this->name = name;
+}
+
+std::string Character::get_gender()
+{
+    return this->gender;
+}
+
+void Character::set_gender(std::string gender)
+{
+    this->gender = gender;
+}
+
+int Character::get_age()
+{
+    return this->age;
+}
+
+void Character::set_age(int age)
+{
+    this->age = age;
+}
+
 int Character::get_current_vigor()
 {
     return this->current_vigor;
