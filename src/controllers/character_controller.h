@@ -12,12 +12,13 @@
 class CharacterController
 {
     sqlite3 *db;
+    CharacterService *char_service;
     KnightService *knight_service;
 
 public:
     CharacterController(sqlite3 *db, SQLiteDatabaseManager db_manager);
 
-    // void list_users();
+    void list_character_for_user(User current_user);
 
     void create_character(User current_user);
 

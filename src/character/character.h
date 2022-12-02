@@ -21,7 +21,7 @@ class Character
      * Character attributes that get set upon creation
      */
     std::string character_class, name, gender;
-    int age, level, vigor, endurance, strength, dexterity, inteligence, faith;
+    int id, age, level, vigor, endurance, strength, dexterity, inteligence, faith;
 
     /**
      * Fields that relate to the dynamically changing character status
@@ -55,6 +55,7 @@ protected:
     /**
      * Initialize a new instance of the Character class with the given parameters
      *
+     * @param[in] id the id of the character that will be created
      * @param[in] character_class the class of the character that will be created
      * @param[in] name the name of the character that will be created
      * @param[in] gender the gender of the character that will be created
@@ -68,7 +69,8 @@ protected:
      * @param[in] inteligence the inteligence attribute of the character that will be created
      * @param[in] faith the faith attribute of the character that will be created
      */
-    Character(std::string character_class,
+    Character(int id,
+              std::string character_class,
               std::string name,
               std::string gender,
               int age,
@@ -109,6 +111,13 @@ protected:
     void set_available_attacks(std::map<std::string, std::map<std::string, double>> available_attacks);
 
 public:
+    /**
+     * Get the id of the character
+     *
+     * @returns the id of this Character instance
+     */
+    int get_id();
+
     /**
      * Get the name of the character
      *

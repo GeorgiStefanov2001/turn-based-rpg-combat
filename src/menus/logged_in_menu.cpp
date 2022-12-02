@@ -51,6 +51,7 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
                 charcater_controller.create_character(user);
                 break;
             case 3:
+                charcater_controller.list_character_for_user(user);
                 break;
             case 4:
                 break;
@@ -83,6 +84,12 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
             throw;
         }
         catch (UserException e)
+        {
+            std::cout << "\n"
+                      << e.what() << "\n"
+                      << std::endl;
+        }
+        catch (CharacterException e)
         {
             std::cout << "\n"
                       << e.what() << "\n"

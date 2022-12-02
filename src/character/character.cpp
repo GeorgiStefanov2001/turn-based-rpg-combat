@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-Character::Character(std::string character_class,
+Character::Character(int id,
+                     std::string character_class,
                      std::string name,
                      std::string gender,
                      int age,
@@ -14,6 +15,7 @@ Character::Character(std::string character_class,
                      int inteligence,
                      int faith)
 {
+    this->id = id;
     this->character_class = character_class;
     this->name = name;
     this->gender = gender;
@@ -27,6 +29,11 @@ Character::Character(std::string character_class,
     this->faith = faith;
     this->current_vigor = (vigor * this->VIGOR_MULTIPLIER);
     this->current_endurance = (endurance * this->ENDURANCE_MULTIPLIER);
+}
+
+int Character::get_id()
+{
+    return this->id;
 }
 
 std::string Character::get_name()

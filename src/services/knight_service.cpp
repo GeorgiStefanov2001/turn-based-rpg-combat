@@ -1,3 +1,4 @@
+#include <user/user.h>
 #include <character/character.h>
 #include <character/melee/knight.h>
 #include "knight_service.h"
@@ -27,7 +28,8 @@ KnightService::KnightService(SQLiteDatabaseManager database_manager, sqlite3 *db
 
 void KnightService::create_knight(std::string name,
                                   std::string gender,
-                                  int age)
+                                  int age,
+                                  User owner)
 {
     try
     {
@@ -42,7 +44,8 @@ void KnightService::create_knight(std::string name,
             start_attrb.at("strength"),
             start_attrb.at("dexterity"),
             start_attrb.at("inteligence"),
-            start_attrb.at("faith"));
+            start_attrb.at("faith"),
+            owner);
     }
     catch (DatabaseException e)
     {

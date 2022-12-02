@@ -75,7 +75,8 @@ void SQLiteDatabaseManager::create_tables(sqlite3 *db)
                       "STRENGTH       INT                   NOT NULL,"
                       "DEXTERITY      INT                   NOT NULL,"
                       "INTELIGENCE    INT                   NOT NULL,"
-                      "FAITH          INT                   NOT NULL);";
+                      "FAITH          INT                   NOT NULL,"
+                      "USER_ID        INT                   NOT NULL);";
 
     this->execute_statement(db, user_table);
     this->execute_statement(db, character_table);

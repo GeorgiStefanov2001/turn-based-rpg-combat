@@ -25,7 +25,8 @@ public:
 
     void create_knight(std::string name,
                        std::string gender,
-                       int age);
+                       int age,
+                       User owner);
 };
 
 #endif

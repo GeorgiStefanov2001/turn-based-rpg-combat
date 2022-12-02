@@ -14,6 +14,7 @@
 CharacterController::CharacterController(sqlite3 *db, SQLiteDatabaseManager db_manager)
 {
     this->db = db;
+    this->char_service = new CharacterService(db_manager, this->db);
     this->knight_service = new KnightService(db_manager, this->db);
 }
 
@@ -37,25 +38,23 @@ void CharacterController::create_character(User current_user)
         std::cin >> age;
     } while (age <= 0);
 
-    bool character_exists = false;
-    // // bool character_exists = true;
-    // bool character_exists = false;
-    // try
-    // {
-    //     // this->service->get_character(username, user);
-    // }
-    // catch (CharacterException e)
-    // {
-    //     // user doesnt't exist, we can continue
-    //     character_exists = false;
-    // }
+    bool character_exists = true;
+    try
+    {
+        this->char_service->get_character_data(name, current_user);
+    }
+    catch (CharacterException e)
+    {
+        // character doesnt't exist, we can continue
+        character_exists = false;
+    }
 
     if (!character_exists)
     {
         try
         {
             int choice;
-            std::cout << "Select character class: " << std::endl;
+            std::cout << "\nSelect character class: " << std::endl;
             std::cout << "1. Knight" << std::endl;
             std::cout << "2. Wizard" << std::endl;
             std::cout << "3. Paladin" << std::endl;
@@ -66,7 +65,7 @@ void CharacterController::create_character(User current_user)
             {
             case 1:
                 // Knight
-                this->knight_service->create_knight(name, gender, age);
+                this->knight_service->create_knight(name, gender, age, current_user);
                 std::cout << "Knight " << name << " created successfully!\n"
                           << std::endl;
                 break;
@@ -92,6 +91,34 @@ void CharacterController::create_character(User current_user)
     }
     else
     {
-        throw CharacterException("User with given username already exists!");
+        throw CharacterException("User with given name already exists!");
+    }
+}
+
+void CharacterController::list_character_for_user(User current_user)
+{
+    std::cout << "\nListing all your characters...\n"
+              << std::endl;
+
+    try
+    {
+        std::list<Character> characters = this->char_service->list_characters_for_user(current_user);
+
+        for (const auto &character : characters)
+        {
+            /**
+             * Good thing we overwrote the << operator :)
+             */
+            std::cout << character << std::endl;
+        }
+        std::cout << "\n";
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+    catch (CharacterException e)
+    {
+        throw;
     }
 }

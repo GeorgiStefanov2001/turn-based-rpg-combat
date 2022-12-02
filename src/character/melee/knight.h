@@ -26,7 +26,8 @@ public:
      * @param[in] gender the gender of the knight that will be created
      * @param[in] age the age of the knight that will be created
      */
-    Knight(std::string name,
+    Knight(int id,
+           std::string name,
            std::string gender,
            int age,
            int level,

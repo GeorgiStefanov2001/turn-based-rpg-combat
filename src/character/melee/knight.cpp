@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-Knight::Knight(std::string name,
+Knight::Knight(int id,
+               std::string name,
                std::string gender,
                int age,
                int level,
@@ -12,7 +13,8 @@ Knight::Knight(std::string name,
                int dexterity,
                int inteligence,
                int faith)
-    : Character("Knight",
+    : Character(id,
+                "Knight",
                 name,
                 gender,
                 age,
