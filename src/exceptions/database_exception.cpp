@@ -2,6 +2,11 @@
 
 #include <string>
 
+DatabaseException::DatabaseException(char *err_msg)
+{
+    this->err_msg = err_msg;
+}
+
 char *
 DatabaseException::what()
 {

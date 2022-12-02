@@ -9,8 +9,10 @@
  */
 class DatabaseException : public std::exception
 {
+    char *err_msg;
 
 public:
+    DatabaseException(char *err_msg);
     char *what();
 };
 

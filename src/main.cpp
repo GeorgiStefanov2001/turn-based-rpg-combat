@@ -30,6 +30,12 @@ int main()
     {
         db_manager.create_tables(db);
 
+        /**
+         * For dev purposes, create admin user so we can test stuff
+         * for creds, check the method implementation
+         */
+        db_manager.create_admin_user(db);
+
         while (true)
         {
             startup_menu.display(logged_in, user, db_manager, db);

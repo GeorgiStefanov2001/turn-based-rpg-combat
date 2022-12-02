@@ -15,8 +15,7 @@ sqlite3 *SQLiteDatabaseManager::connect_to_database(const char *db_dir_name)
 
     if (result)
     {
-        std::cerr << sqlite3_errmsg(db) << std::endl;
-        throw DatabaseException();
+        throw DatabaseException((char *)sqlite3_errmsg(db));
     }
 
     return db;
@@ -30,15 +29,12 @@ void SQLiteDatabaseManager::close_database_connection(sqlite3 *db)
 void SQLiteDatabaseManager::execute_statement(sqlite3 *db, std::string sql_statement)
 {
     int result;
-    char *err_msg;
 
-    result = sqlite3_exec(db, sql_statement.data(), NULL, 0, &err_msg);
+    result = sqlite3_exec(db, sql_statement.data(), NULL, 0, NULL);
 
     if (result != SQLITE_OK)
     {
-        std::cerr << "Error during sqlite exec: " << err_msg << std::endl;
-        sqlite3_free(err_msg);
-        throw DatabaseException();
+        throw DatabaseException((char *)sqlite3_errmsg(db));
     }
 }
 
@@ -86,9 +82,8 @@ SQLiteDatabaseManager::select(sqlite3 *db, std::string statement)
 
     if (result != SQLITE_OK)
     {
-        std::cerr << "Error while compiling SQL select statement: " << sqlite3_errmsg(db) << std::endl;
         sqlite3_finalize(stmt);
-        throw DatabaseException();
+        throw DatabaseException((char *)sqlite3_errmsg(db));
     }
 
     bool done = false;
@@ -115,12 +110,26 @@ SQLiteDatabaseManager::select(sqlite3 *db, std::string statement)
             done = true;
             break;
         default:
-            std::cerr << "Failed when reading table rows...";
             sqlite3_finalize(stmt);
-            throw DatabaseException();
+            throw DatabaseException("Failed when reading table rows...");
         }
     }
 
     sqlite3_finalize(stmt);
     return results;
+}
+
+void SQLiteDatabaseManager::create_admin_user(sqlite3 *db)
+{
+    std::string stmt = "INSERT INTO USERS(IS_ADMIN, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME)\n"
+                       "VALUES ('1', 'admin', 'admin', 'admin', 'admin');";
+
+    try
+    {
+        this->execute_statement(db, stmt);
+    }
+    catch (DatabaseException e)
+    {
+        // user exits, that's fine, we just continue :)
+    }
 }

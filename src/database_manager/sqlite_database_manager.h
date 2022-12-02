@@ -31,6 +31,11 @@ public:
      */
     void create_tables(sqlite3 *db);
 
+    /**
+     * For dev purposes...
+     */
+    void create_admin_user(sqlite3 *db);
+
     std::map<int, std::map<std::string, std::string>> select(sqlite3 *db, std::string statement);
 };
 
