@@ -24,6 +24,15 @@ public:
     void delete_attack();
 
     void update_attack();
+
+    void input_attack_stats(int &damage_dealt,
+                            int &endurance_consumption,
+                            int &mana_consumption,
+                            int &str_req,
+                            int &dex_req,
+                            int &int_req,
+                            int &faith_req,
+                            bool is_update);
 };
 
 #endif

@@ -93,10 +93,13 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
                 attack_controller.create_attack();
                 break;
             case 13:
+                attack_controller.list_attacks();
                 break;
             case 14:
+                attack_controller.update_attack();
                 break;
             case 15:
+                attack_controller.delete_attack();
                 break;
             default:
                 std::cout << "Invalid choice!" << std::endl;

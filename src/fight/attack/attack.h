@@ -13,6 +13,18 @@ class Attack
     std::string name;
     std::map<std::string, int> stat_requirements;
 
+    /**
+     * Overload the operator<< for ostream in order to print out the details of the current Attack instance.
+     * Declare it as a friend function so it has access to the private and protected fields of the class that need to be printed.
+     * This is done more for demonstrational purposes of the 'friend function' functionality more than anything else.
+     *
+     * @param[out] s the output stream object that writes the data
+     * @param[out] attack the Attack instance, whose data will be printed
+     *
+     * @returns an std::ostream operator that is used for writing data
+     */
+    friend std::ostream &operator<<(std::ostream &s, const Attack &attack);
+
 public:
     /**
      * Initialize a new instance of the Attack class with the given parameters

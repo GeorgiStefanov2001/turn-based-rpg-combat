@@ -16,6 +16,58 @@ AttackController::AttackController(sqlite3 *db, SQLiteDatabaseManager db_manager
     this->attack_service = new AttackService(db_manager, this->db);
 }
 
+void AttackController::input_attack_stats(int &damage_dealt,
+                                          int &endurance_consumption,
+                                          int &mana_consumption,
+                                          int &str_req,
+                                          int &dex_req,
+                                          int &int_req,
+                                          int &faith_req,
+                                          bool is_update)
+{
+    std::string update_info_for_int = is_update ? " <enter '-1' to keep current>" : "";
+
+    /**
+     * Beauty incoming :)
+     * I just want personalized cout messages otherwise could make it into a method
+     */
+    do
+    {
+        std::cout << "Enter the damage the attack deals (>0)" + update_info_for_int + ": ";
+        std::cin >> damage_dealt;
+    } while (is_update ? (damage_dealt == 0 || damage_dealt < -1) : (damage_dealt <= 0));
+    do
+    {
+        std::cout << "Enter the endurance the attack consumes (>=0)" + update_info_for_int + ": ";
+        std::cin >> endurance_consumption;
+    } while (is_update ? (endurance_consumption < -1) : (endurance_consumption < 0));
+    do
+    {
+        std::cout << "Enter the mana the attack consumes (>=0)" + update_info_for_int + ": ";
+        std::cin >> mana_consumption;
+    } while (is_update ? (mana_consumption < -1) : (mana_consumption < 0));
+    do
+    {
+        std::cout << "Enter the strength requirement of the attack (>=0)" + update_info_for_int + ": ";
+        std::cin >> str_req;
+    } while (is_update ? (str_req < -1) : (str_req < 0));
+    do
+    {
+        std::cout << "Enter the dexterity requirement of the attack (>=0)" + update_info_for_int + ": ";
+        std::cin >> dex_req;
+    } while (is_update ? (dex_req < -1) : (dex_req < 0));
+    do
+    {
+        std::cout << "Enter the inteligence requirement of the attack (>=0)" + update_info_for_int + ": ";
+        std::cin >> int_req;
+    } while (is_update ? (int_req < -1) : (int_req < 0));
+    do
+    {
+        std::cout << "Enter the faith requirement of the attack (>=0)" + update_info_for_int + ": ";
+        std::cin >> faith_req;
+    } while (is_update ? (faith_req < -1) : (faith_req < 0));
+}
+
 void AttackController::create_attack()
 {
     std::string name;
@@ -41,47 +93,15 @@ void AttackController::create_attack()
 
     if (!attack_exists)
     {
-
-        /**
-         * Beauty incoming :)
-         * I just want personalized cout messages otherwise could make it into a method
-         */
-        do
-        {
-            std::cout << "Enter the damage the attack deals (>0): ";
-            std::cin >> damage_dealt;
-        } while (damage_dealt <= 0);
-        do
-        {
-            std::cout << "Enter the endurance the attack consumes (>=0): ";
-            std::cin >> end_consumption;
-        } while (end_consumption < 0);
-        do
-        {
-            std::cout << "Enter the mana the attack consumes (>=0): ";
-            std::cin >> mana_consumption;
-        } while (mana_consumption < 0);
-        do
-        {
-            std::cout << "Enter the strength requirement of the attack (>=0): ";
-            std::cin >> str_req;
-        } while (str_req < 0);
-        do
-        {
-            std::cout << "Enter the dexterity requirement of the attack (>=0): ";
-            std::cin >> dex_req;
-        } while (dex_req < 0);
-        do
-        {
-            std::cout << "Enter the inteligence requirement of the attack (>=0): ";
-            std::cin >> int_req;
-        } while (int_req < 0);
-        do
-        {
-            std::cout << "Enter the faith requirement of the attack (>=0): ";
-            std::cin >> faith_req;
-        } while (faith_req < 0);
-
+        this->input_attack_stats(
+            damage_dealt,
+            end_consumption,
+            mana_consumption,
+            str_req,
+            dex_req,
+            int_req,
+            faith_req,
+            false);
         stat_req.insert({"strength", str_req});
         stat_req.insert({"dexterity", dex_req});
         stat_req.insert({"inteligence", int_req});
@@ -109,109 +129,124 @@ void AttackController::create_attack()
     }
 }
 
-// void CharacterController::list_character_for_user(User current_user)
-// {
-//     std::cout << "\nListing all your characters...\n"
-//               << std::endl;
+void AttackController::list_attacks()
+{
+    std::cout << "\nListing all attacks in the database...\n"
+              << std::endl;
 
-//     try
-//     {
-//         std::list<Character> characters = this->char_service->list_characters_for_user(current_user);
+    try
+    {
+        std::list<Attack> attacks = this->attack_service->list_attacks();
 
-//         for (const auto &character : characters)
-//         {
-//             /**
-//              * Good thing we overwrote the << operator :)
-//              */
-//             std::cout << character << std::endl;
-//         }
-//         std::cout << "\n";
-//         std::cout << "* - * - *\n"
-//                   << std::endl;
-//     }
-//     catch (DatabaseException e)
-//     {
-//         throw;
-//     }
-//     catch (CharacterException e)
-//     {
-//         throw;
-//     }
-// }
+        for (const auto &attack : attacks)
+        {
+            /**
+             * Good thing we overwrote the << operator :)
+             */
+            std::cout << attack << std::endl;
+        }
+        std::cout << "\n";
+        std::cout << "* - * - *\n"
+                  << std::endl;
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+    catch (AttackException e)
+    {
+        throw;
+    }
+}
 
-// void CharacterController::delete_character(User current_user)
-// {
-//     std::string name;
-//     std::cout << "\nDelete a character\n"
-//               << std::endl;
-//     std::cout << "Enter name of your character you wish to delete: ";
-//     std::cin >> name;
+void AttackController::delete_attack()
+{
+    std::string name;
+    std::cout << "\nDelete an attack\n"
+              << std::endl;
+    std::cout << "Enter name of the attack you wish to delete: ";
+    std::cin >> name;
 
-//     try
-//     {
-//         Character character = this->char_service->get_character(name, current_user);
-//         this->char_service->delete_character(character);
-//         std::cout << "\nCharacter " << name << " deleted successfully!\n"
-//                   << std::endl;
-//         std::cout << "* - * - *\n"
-//                   << std::endl;
-//     }
-//     catch (DatabaseException e)
-//     {
-//         throw;
-//     }
-//     catch (CharacterException e)
-//     {
-//         throw;
-//     }
-// }
+    try
+    {
+        Attack attack = this->attack_service->get_attack(name);
+        this->attack_service->delete_attack(attack);
+        std::cout << "\nAttack " << name << " deleted successfully!\n"
+                  << std::endl;
+        std::cout << "* - * - *\n"
+                  << std::endl;
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+    catch (AttackException e)
+    {
+        throw;
+    }
+}
 
-// void CharacterController::update_character(User current_user)
-// {
-//     std::string name, new_name, new_gender;
-//     int new_age;
-//     std::cout << "\nUpdate character's details\n"
-//               << std::endl;
-//     std::cout << "Enter name of your character you wish to update: ";
-//     std::cin >> name;
+void AttackController::update_attack()
+{
+    std::string name, new_name;
+    int new_deamage_dealt, new_end_consumption, new_mana_consumption, new_str_req, new_dex_req, new_int_req, new_faith_req;
+    std::cout << "\nUpdate attacks's stats\n"
+              << std::endl;
+    std::cout << "Enter name of the attack you wish to update: ";
+    std::cin >> name;
 
-//     try
-//     {
-//         Character character = this->char_service->get_character(name, current_user);
+    try
+    {
+        Attack attack = this->attack_service->get_attack(name);
 
-//         std::cout << "Enter new name <enter 'same' to keep current>: ";
-//         std::cin >> new_name;
-//         std::cout << "Enter new gender <enter 'same' to keep current>: ";
-//         std::cin >> new_gender;
-//         do
-//         {
-//             std::cout << "Enter non-negative new age <enter '-1' to keep current>: ";
-//             std::cin >> new_age;
-//         } while (new_age == 0 || new_age < -1);
+        std::cout << "Enter the new name of the attack <enter 'same' to keep current>: ";
+        std::cin >> new_name;
 
-//         /**
-//          * Extremely beautiful logic follows :)
-//          */
-//         new_name = (new_name.compare("same") == 0) ? character.get_name() : new_name;
-//         new_gender = (new_gender.compare("same") == 0) ? character.get_gender() : new_gender;
-//         new_age = (new_age == -1) ? character.get_age() : new_age;
+        this->input_attack_stats(
+            new_deamage_dealt,
+            new_end_consumption,
+            new_mana_consumption,
+            new_str_req,
+            new_dex_req,
+            new_int_req,
+            new_faith_req,
+            true);
+        /**
+         * Extremely beautiful logic follows :)
+         */
+        new_name = (new_name.compare("same") == 0) ? attack.get_name() : new_name;
+        new_deamage_dealt = (new_deamage_dealt == -1) ? attack.get_damage_dealt() : new_deamage_dealt;
+        new_end_consumption = (new_end_consumption == -1) ? attack.get_endurance_consumption() : new_end_consumption;
+        new_mana_consumption = (new_mana_consumption == -1) ? attack.get_mana_consumption() : new_mana_consumption;
+        new_str_req = (new_str_req == -1) ? attack.get_stat_requirements().at("strength") : new_str_req;
+        new_dex_req = (new_dex_req == -1) ? attack.get_stat_requirements().at("dexterity") : new_dex_req;
+        new_int_req = (new_int_req == -1) ? attack.get_stat_requirements().at("inteligence") : new_int_req;
+        new_faith_req = (new_faith_req == -1) ? attack.get_stat_requirements().at("faith") : new_faith_req;
 
-//         character.set_name(new_name);
-//         character.set_gender(new_gender);
-//         character.set_age(new_age);
+        std::map<std::string, int> attack_reqs;
+        attack_reqs.insert({"strength", new_str_req});
+        attack_reqs.insert({"dexterity", new_dex_req});
+        attack_reqs.insert({"inteligence", new_int_req});
+        attack_reqs.insert({"faith", new_faith_req});
 
-//         this->char_service->update_character(character);
-//         std::cout << "\nCharacter " << name << " updated successfully!\n"
-//                   << std::endl;
-//         std::cout << "* - * - *\n"
-//                   << std::endl;
-//     }
-//     catch (DatabaseException e)
-//     {
-//         throw;
-//     }
-//     catch (CharacterException e)
-//     {
-//         throw;
-//     }
-// }
+        attack.set_name(new_name);
+        attack.set_damage_dealt(new_deamage_dealt);
+        attack.set_endurance_consumption(new_end_consumption);
+        attack.set_mana_consumption(new_mana_consumption);
+        attack.set_stat_requirements(attack_reqs);
+
+        this->attack_service->update_attack(attack);
+        std::cout << "\nAttack " << name << " updated successfully!\n"
+                  << std::endl;
+        std::cout << "* - * - *\n"
+                  << std::endl;
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+    catch (AttackException e)
+    {
+        throw;
+    }
+}

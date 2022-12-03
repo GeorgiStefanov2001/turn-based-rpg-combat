@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <iostream>
 
 Attack::Attack(
     int id,
@@ -72,4 +73,14 @@ std::map<std::string, int> Attack::get_stat_requirements()
 void Attack::set_stat_requirements(std::map<std::string, int> stat_requirements)
 {
     this->stat_requirements = stat_requirements;
+}
+
+std::ostream &operator<<(std::ostream &s, const Attack &attack)
+{
+    return s << "- " << attack.name << ": deals " << attack.damage_dealt << " damage, cosumes " << attack.endurance_consumption
+             << " endurance, " << attack.mana_consumption << " mana. \n"
+             << "   Requirements: " << attack.stat_requirements.at("strength") << " strength, "
+             << attack.stat_requirements.at("dexterity") << " dexterity, "
+             << attack.stat_requirements.at("inteligence") << " inteligence and "
+             << attack.stat_requirements.at("faith") << " faith.";
 }

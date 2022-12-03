@@ -159,7 +159,7 @@ void AttackService::update_attack(Attack attack)
 {
     std::string update_statement;
     std::string id_to_str = std::to_string(attack.get_id());
-    update_statement = "UPDATE ATTACK SET NAME = '" + attack.get_name() +
+    update_statement = "UPDATE ATTACKS SET NAME = '" + attack.get_name() +
                        "', DAMAGE_DEALT = '" + std::to_string(attack.get_damage_dealt()) + "', ENDURANCE_CONSUMPTION = '" +
                        std::to_string(attack.get_endurance_consumption()) + "', MANA_CONSUMPTION = '" + std::to_string(attack.get_mana_consumption()) +
                        "', STR_REQ = '" + std::to_string(attack.get_stat_requirements().at("strength")) +
