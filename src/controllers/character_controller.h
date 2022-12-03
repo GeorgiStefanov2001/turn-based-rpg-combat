@@ -2,6 +2,7 @@
 #define __CHARACTER_CONTROLLER_H_INCLUDED__
 
 #include <character/character.h>
+#include <services/character_service.h>
 #include <services/knight_service.h>
 #include <database_manager/sqlite_database_manager.h>
 

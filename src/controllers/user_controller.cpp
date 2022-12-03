@@ -23,12 +23,6 @@ User UserController::register_user()
               << std::endl;
     std::cout << "Enter username: ";
     std::cin >> username;
-    std::cout << "Enter password: ";
-    std::cin >> password;
-    std::cout << "Enter first name: ";
-    std::cin >> first_name;
-    std::cout << "Enter last name: ";
-    std::cin >> last_name;
 
     bool user_exists = true;
     try
@@ -43,6 +37,13 @@ User UserController::register_user()
 
     if (!user_exists)
     {
+        std::cout << "Enter password: ";
+        std::cin >> password;
+        std::cout << "Enter first name: ";
+        std::cin >> first_name;
+        std::cout << "Enter last name: ";
+        std::cin >> last_name;
+
         try
         {
             this->service->create_user(username, password, first_name, last_name);

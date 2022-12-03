@@ -28,15 +28,6 @@ void CharacterController::create_character(User current_user)
 
     std::cout << "Enter character name: ";
     std::cin >> name;
-    std::cout << "Enter character gender: ";
-    std::cin >> gender;
-
-    do
-    {
-        std::cout
-            << "Enter age (>= 0): ";
-        std::cin >> age;
-    } while (age <= 0);
 
     bool character_exists = true;
     try
@@ -51,6 +42,17 @@ void CharacterController::create_character(User current_user)
 
     if (!character_exists)
     {
+
+        std::cout << "Enter character gender: ";
+        std::cin >> gender;
+
+        do
+        {
+            std::cout
+                << "Enter age (> 0): ";
+            std::cin >> age;
+        } while (age <= 0);
+
         try
         {
             int choice;

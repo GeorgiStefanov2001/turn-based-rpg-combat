@@ -1,19 +1,17 @@
 #ifndef __DATABASE_EXCEPTION_H_INCLUDED__
 #define __DATABASE_EXCEPTION_H_INCLUDED__
 
-#include <exception>
+#include "custom_exception.h"
 
 /**
  * A custom exception that gets thrown when an error
  * occurs while working with the database
  */
-class DatabaseException : public std::exception
+class DatabaseException : public CustomException
 {
-    char *err_msg;
 
 public:
     DatabaseException(char *err_msg);
-    char *what();
 };
 
 #endif

@@ -3,9 +3,11 @@
 #include <database_manager/sqlite_database_manager.h>
 #include <controllers/user_controller.h>
 #include <controllers/character_controller.h>
+#include <controllers/attack_controller.h>
 #include <exceptions/database_exception.h>
 #include <exceptions/user_exception.h>
 #include <exceptions/character_exception.h>
+#include <exceptions/attack_exception.h>
 #include <exceptions/program_exit_exception.h>
 
 #include <sqlite3.h>
@@ -17,6 +19,7 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
     int choice = 0;
     UserController user_controller(db, db_manager);
     CharacterController character_controller(db, db_manager);
+    AttackController attack_controller(db, db_manager);
 
     std::cout
         << "\nWelcome, " << user.get_first_name() << "!\n"
@@ -37,6 +40,10 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
             std::cout << "[9]. List users" << std::endl;
             std::cout << "[10]. Update user" << std::endl;
             std::cout << "[11]. Delete user" << std::endl;
+            std::cout << "{12}. Create attack" << std::endl;
+            std::cout << "{13}. List attacks" << std::endl;
+            std::cout << "{14}. Update attack" << std::endl;
+            std::cout << "{15}. Delete attack" << std::endl;
         }
         std::cout << "\nEnter your choice: ";
         std::cin >> choice;
@@ -82,6 +89,15 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
             case 11:
                 user_controller.delete_user(user);
                 break;
+            case 12:
+                attack_controller.create_attack();
+                break;
+            case 13:
+                break;
+            case 14:
+                break;
+            case 15:
+                break;
             default:
                 std::cout << "Invalid choice!" << std::endl;
                 std::cout << "* - * - *\n"
@@ -102,6 +118,14 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
                       << std::endl;
         }
         catch (CharacterException e)
+        {
+            std::cout << "\n"
+                      << e.what() << "\n"
+                      << std::endl;
+            std::cout << "* - * - *\n"
+                      << std::endl;
+        }
+        catch (AttackException e)
         {
             std::cout << "\n"
                       << e.what() << "\n"

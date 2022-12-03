@@ -1,19 +1,16 @@
 #ifndef __CHARACTER_EXCEPTION_H_INCLUDED__
 #define __CHARACTER_EXCEPTION_H_INCLUDED__
 
-#include <exception>
+#include "custom_exception.h"
 
 /**
  * A custom exception that gets thrown when an error
  * occurs while working with the character
  */
-class CharacterException : public std::exception
+class CharacterException : public CustomException
 {
-    char *err_msg;
-
 public:
     CharacterException(char *err_msg);
-    char *what();
 };
 
 #endif

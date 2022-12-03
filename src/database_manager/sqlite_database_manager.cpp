@@ -40,7 +40,7 @@ void SQLiteDatabaseManager::execute_statement(sqlite3 *db, std::string sql_state
 
 void SQLiteDatabaseManager::create_tables(sqlite3 *db)
 {
-    std::string user_table, character_table;
+    std::string user_table, character_table, attack_table;
     user_table = "CREATE TABLE IF NOT EXISTS USERS("
                  "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                  "IS_ADMIN       INT                   NOT NULL,"
@@ -64,8 +64,20 @@ void SQLiteDatabaseManager::create_tables(sqlite3 *db)
                       "FAITH          INT                   NOT NULL,"
                       "USER_ID        INT                   NOT NULL);";
 
+    attack_table = "CREATE TABLE IF NOT EXISTS ATTACKS("
+                   "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                   "NAME                    VARCHAR(255) NOT NULL UNIQUE,"
+                   "DAMAGE_DEALT            INT          NOT NULL,"
+                   "ENDURANCE_CONSUMPTION   INT          NOT NULL,"
+                   "MANA_CONSUMPTION        INT          NOT NULL,"
+                   "STR_REQ                 INT          NOT NULL,"
+                   "DEX_REQ                 INT          NOT NULL,"
+                   "INT_REQ                 INT          NOT NULL,"
+                   "FAITH_REQ               INT          NOT NULL);";
+
     this->execute_statement(db, user_table);
     this->execute_statement(db, character_table);
+    this->execute_statement(db, attack_table);
 }
 
 std::map<int, std::map<std::string, std::string>>
@@ -131,5 +143,6 @@ void SQLiteDatabaseManager::create_admin_user(sqlite3 *db)
     catch (DatabaseException e)
     {
         // user exits, that's fine, we just continue :)
+        // if we have dedicated logging levels, we can log here
     }
 }
