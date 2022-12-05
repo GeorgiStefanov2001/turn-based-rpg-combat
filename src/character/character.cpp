@@ -1,6 +1,9 @@
 #include "character.h"
+#include <fight/attack/attack.h>
 
 #include <iostream>
+#include <string>
+#include <list>
 
 Character::Character(int id,
                      std::string character_class,
@@ -96,35 +99,31 @@ void Character::set_current_xp(int xp)
     this->current_xp = xp;
 }
 
-std::map<std::string, std::map<std::string, double>> Character::get_available_attacks()
+std::list<std::string> Character::get_available_attacks()
 {
     return this->available_attacks;
 }
 
-void Character::set_available_attacks(std::map<std::string, std::map<std::string, double>> available_attacks)
+void Character::set_available_attacks(std::list<std::string> available_attacks)
 {
     this->available_attacks = available_attacks;
 }
 
-void Character::attack(Character &enemy,
-                       std::string attack_name,
-                       double damage_dealt,
-                       double endurance_consumption,
-                       std::map<std::string, int> attack_requirements)
-{
-    // TODO: Check for attack requirements !!!
-    int endurance_left = this->get_current_endurance() - endurance_consumption;
-    if (endurance_left >= 0)
-    {
-        this->set_current_endurance(endurance_left);
-        std::cout << this->name << " attacks " << enemy.get_name() << "(attack_name: " << attack_name << ", damage_dealt: " << damage_dealt << ");" << std::endl;
-        enemy.set_current_vigor(enemy.get_current_vigor() - damage_dealt);
-    }
-    else
-    {
-        std::cout << "Not enough endurance to perform this attack!" << std::endl;
-    }
-}
+// void Character::attack(Character &enemy,
+//                        Attack attack)
+// {
+//     int endurance_left = this->get_current_endurance() - endurance_consumption;
+//     if (endurance_left >= 0)
+//     {
+//         this->set_current_endurance(endurance_left);
+//         std::cout << this->name << " attacks " << enemy.get_name() << "(attack_name: " << attack_name << ", damage_dealt: " << damage_dealt << ");" << std::endl;
+//         enemy.set_current_vigor(enemy.get_current_vigor() - damage_dealt);
+//     }
+//     else
+//     {
+//         std::cout << "Not enough endurance to perform this attack!" << std::endl;
+//     }
+// }
 
 bool Character::is_alive()
 {
@@ -133,7 +132,9 @@ bool Character::is_alive()
 
 std::ostream &operator<<(std::ostream &s, const Character &character)
 {
-    // TODO: Print the character information in a readable fashion
-    // TODO: When fighting, in the main loop print character details (the remaining vigor, endurance, mana)
-    return s << character.name << ", " << character.age;
+    return s << "- " << character.name << ": class: " << character.character_class << ", lvl "
+             << character.level << ", gender: " << character.gender << ", age: " << character.age << ".\n"
+             << "   Stats: VIG:" << character.vigor << ", END: " << character.endurance
+             << ", STR: " << character.strength << ", DEX: " << character.dexterity
+             << ", INT: " << character.inteligence << ", FAITH: " << character.faith << ".";
 }

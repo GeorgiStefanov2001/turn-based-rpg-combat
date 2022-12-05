@@ -115,7 +115,8 @@ void CharacterController::list_character_for_user(User current_user)
             /**
              * Good thing we overwrote the << operator :)
              */
-            std::cout << character << std::endl;
+            std::cout << character << "\n"
+                      << std::endl;
         }
         std::cout << "\n";
         std::cout << "* - * - *\n"

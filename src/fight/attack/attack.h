@@ -59,4 +59,5 @@ public:
     std::map<std::string, int> get_stat_requirements();
     void set_stat_requirements(std::map<std::string, int> stat_requirements);
 };
+
 #endif

@@ -143,7 +143,8 @@ void AttackController::list_attacks()
             /**
              * Good thing we overwrote the << operator :)
              */
-            std::cout << attack << std::endl;
+            std::cout << attack << "\n"
+                      << std::endl;
         }
         std::cout << "\n";
         std::cout << "* - * - *\n"

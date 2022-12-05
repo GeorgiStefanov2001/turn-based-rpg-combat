@@ -1,8 +1,11 @@
 #ifndef __CHARACTER_H_INCLUDED__
 #define __CHARACTER_H_INCLUDED__
 
+#include <fight/attack/attack.h>
+
 #include <map>
 #include <string>
+#include <list>
 
 /**
  * Base Character class
@@ -26,14 +29,12 @@ class Character
     /**
      * Fields that relate to the dynamically changing character status
      */
-    int current_vigor, current_endurance, current_xp;
+    int current_vigor, current_endurance, current_mana, current_xp;
 
     /**
-     * A map of maps that contains all the available attacks this class has.
-     * Each key of the outer map is the attack name and each value is another map,
-     * that contains the attributes of the given attack (such as damage, endurance consumption and so on...)
+     * A list of strings that contains all the available attacks this class has.
      */
-    std::map<std::string, std::map<std::string, double>> available_attacks;
+    std::list<std::string> available_attacks;
 
     // TODO: For mage classes - add "mana" stat and current_mana field
     // TODO: Add current_level + other current_<attribute> as needed
@@ -106,9 +107,9 @@ protected:
     /**
      * Set the available attacks of the character to a given value
      *
-     * @param[in] available_attacks the value to which the available attacks map attribute of this Character instance will be set
+     * @param[in] available_attacks the value to which the available attacks attribute of this Character instance will be set
      */
-    void set_available_attacks(std::map<std::string, std::map<std::string, double>> available_attacks);
+    virtual void set_available_attacks(std::list<std::string> available_attacks);
 
 public:
     /**
@@ -173,24 +174,16 @@ public:
      *
      * @returns all the available attacks of this Character instance
      */
-    std::map<std::string, std::map<std::string, double>> get_available_attacks();
+    std::list<std::string> get_available_attacks();
 
     /**
      * Attack another character and deal certain amount of damage (depletes the enemy's vigor).
-     * The attack has certain attribute requirements in order to be executed and consumes stamina.
+     * The attack has certain attribute requirements in order to be executed and consumes stamina/mana.
      *
      * @param[out] enemy the enemy that will be attacked, passed by reference
-     * @param[in] atack_name the name of the attack that will be executed
-     * @param[in] damage_dealt the amount of damage that will be dealt to the enemy's vigor
-     * @param[in] endurance_consumption the amount of endurance that this attack will consume (if enough is available)
-     * @param[in] attack_requirements the character attribute requirements of this Character instance
-     *      that are required in order to execute this attack
+     * @param[in] attack the attack that will be executed
      */
-    void attack(Character &enemy,
-                std::string attack_name,
-                double damage_dealt,
-                double endurance_consumption,
-                std::map<std::string, int> attack_requirements);
+    void attack(Character &enemy, Attack attack);
 
     /**
      * Check whether the character is alive (the current vigor they have must be positive)

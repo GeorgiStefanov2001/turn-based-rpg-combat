@@ -8,9 +8,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(
   SOURCES 
   src/main.cpp 
-  src/character/character.cpp 
-  src/character/melee/knight.cpp
   src/fight/attack/attack.cpp
+  src/character/melee/knight.cpp
   src/user/user.cpp
   src/exceptions/custom_exception.cpp
   src/exceptions/database_exception.cpp
@@ -28,7 +27,9 @@ set(
   src/database_manager/sqlite_database_manager.cpp
   src/menus/startup_menu.cpp
   src/menus/logged_in_menu.cpp
+  src/character/character.cpp 
   )
+
 add_executable(
   project_exec
   ${SOURCES}
@@ -45,36 +46,4 @@ find_package (SQLite3)
 
 include_directories(${SQLite3_INCLUDE_DIRS})
 target_link_libraries (project_exec ${SQLite3_LIBRARIES})
-
-
-#Gtest
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-)
-FetchContent_MakeAvailable(googletest)
-
-enable_testing()
-
-# Executable for the tests
-set(TEST_SOURCES tests/character/test_character.cpp)
-add_executable(
-  project_tests
-  ${TEST_SOURCES}
-)
-target_link_libraries(
-  project_tests
-  GTest::gtest_main
-)
-
-set(INCLUDE_DIRS ./)
-target_include_directories(
-  project_tests
-  PRIVATE
-  ${INCLUDE_DIRS}
-)
-
-include(GoogleTest)
-gtest_discover_tests(project_tests)
 
