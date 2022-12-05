@@ -13,10 +13,10 @@ KnightService::KnightService(SQLiteDatabaseManager database_manager, sqlite3 *db
 {
 }
 
-void KnightService::create_knight(std::string name,
-                                  std::string gender,
-                                  int age,
-                                  User owner)
+void KnightService::create(std::string name,
+                           std::string gender,
+                           int age,
+                           User owner)
 {
     try
     {

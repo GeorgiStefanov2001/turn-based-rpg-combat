@@ -12,10 +12,8 @@
 CharacterController::CharacterController(sqlite3 *db, SQLiteDatabaseManager db_manager)
 {
     this->db = db;
-    this->char_service = new CharacterService(db_manager, this->db);
-    this->knight_service = new KnightService(db_manager, this->db);
-    this->sorcerer_service = new SorcererService(db_manager, this->db);
-    this->cleric_service = new ClericService(db_manager, this->db);
+    this->db_manager = db_manager;
+    this->service = new CharacterService(db_manager, this->db);
 }
 
 void CharacterController::create_character(User current_user)
@@ -32,7 +30,7 @@ void CharacterController::create_character(User current_user)
     bool character_exists = true;
     try
     {
-        this->char_service->get_character(name, current_user);
+        this->service->get_character(name, current_user);
     }
     catch (CharacterException e)
     {
@@ -63,31 +61,23 @@ void CharacterController::create_character(User current_user)
             std::cout << "\nEnter your choice: ";
             std::cin >> choice;
 
+            std::string char_class;
             switch (choice)
             {
             case 1:
                 // Knight
-                this->knight_service->create_knight(name, gender, age, current_user);
-                std::cout << "\nKnight " << name << " created successfully!\n"
-                          << std::endl;
-                std::cout << "* - * - *\n"
-                          << std::endl;
+                char_class = "Knight";
+                this->service = new KnightService(this->db_manager, this->db);
                 break;
             case 2:
                 // Sorcerer
-                this->sorcerer_service->create_sorcerer(name, gender, age, current_user);
-                std::cout << "\nSorcerer " << name << " created successfully!\n"
-                          << std::endl;
-                std::cout << "* - * - *\n"
-                          << std::endl;
+                char_class = "Sorcerer";
+                this->service = new SorcererService(this->db_manager, this->db);
                 break;
             case 3:
                 // Cleric
-                this->cleric_service->create_cleric(name, gender, age, current_user);
-                std::cout << "\nCleric " << name << " created successfully!\n"
-                          << std::endl;
-                std::cout << "* - * - *\n"
-                          << std::endl;
+                char_class = "Cleric";
+                this->service = new ClericService(this->db_manager, this->db);
                 break;
             default:
                 std::cout << "\nInvalid character class!" << std::endl;
@@ -95,6 +85,13 @@ void CharacterController::create_character(User current_user)
                           << std::endl;
                 break;
             }
+
+            this->service->create(name, gender, age, current_user);
+            std::cout << "\n"
+                      << char_class << " " << name << " created successfully!\n"
+                      << std::endl;
+            std::cout << "* - * - *\n"
+                      << std::endl;
         }
         catch (DatabaseException e)
         {
@@ -118,7 +115,7 @@ void CharacterController::list_character_for_user(User current_user)
 
     try
     {
-        std::list<Character> characters = this->char_service->list_characters_for_user(current_user);
+        std::list<Character> characters = this->service->list_characters_for_user(current_user);
 
         for (const auto &character : characters)
         {
@@ -152,8 +149,8 @@ void CharacterController::delete_character(User current_user)
 
     try
     {
-        Character character = this->char_service->get_character(name, current_user);
-        this->char_service->delete_character(character);
+        Character character = this->service->get_character(name, current_user);
+        this->service->delete_character(character);
         std::cout << "\nCharacter " << name << " deleted successfully!\n"
                   << std::endl;
         std::cout << "* - * - *\n"
@@ -180,7 +177,7 @@ void CharacterController::update_character(User current_user)
 
     try
     {
-        Character character = this->char_service->get_character(name, current_user);
+        Character character = this->service->get_character(name, current_user);
 
         std::cout << "Enter new name <enter 'same' to keep current>: ";
         std::cin >> new_name;
@@ -203,7 +200,7 @@ void CharacterController::update_character(User current_user)
         character.set_gender(new_gender);
         character.set_age(new_age);
 
-        this->char_service->update_character(character);
+        this->service->update_character(character);
         std::cout << "\nCharacter " << name << " updated successfully!\n"
                   << std::endl;
         std::cout << "* - * - *\n"

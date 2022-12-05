@@ -35,6 +35,9 @@ Character *CharacterService::create_character_from_data(std::map<std::string, st
     inteligence = atoi(character_data.at("INTELIGENCE").c_str());
     faith = atoi(character_data.at("FAITH").c_str());
 
+    /**
+     * We can't create a Character instance since it's the base class and its constructor is protected
+     */
     if (character_class.compare("Knight") == 0)
     {
         character = new Knight(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
@@ -185,4 +188,9 @@ void CharacterService::update_character(Character character)
     {
         throw;
     }
+}
+
+void CharacterService::create(std::string name, std::string gender, int age, User owner)
+{
+    // creating a character
 }

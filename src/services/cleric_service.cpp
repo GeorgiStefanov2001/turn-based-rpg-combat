@@ -13,11 +13,10 @@ ClericService::ClericService(SQLiteDatabaseManager database_manager, sqlite3 *db
 {
 }
 
-// TODO make it create() and make it fully virtual in CharacterService, each child will then implement it here :)
-void ClericService::create_cleric(std::string name,
-                                  std::string gender,
-                                  int age,
-                                  User owner)
+void ClericService::create(std::string name,
+                           std::string gender,
+                           int age,
+                           User owner)
 {
     try
     {

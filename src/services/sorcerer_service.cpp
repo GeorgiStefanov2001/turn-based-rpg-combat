@@ -13,10 +13,10 @@ SorcererService::SorcererService(SQLiteDatabaseManager database_manager, sqlite3
 {
 }
 
-void SorcererService::create_sorcerer(std::string name,
-                                      std::string gender,
-                                      int age,
-                                      User owner)
+void SorcererService::create(std::string name,
+                             std::string gender,
+                             int age,
+                             User owner)
 {
     try
     {

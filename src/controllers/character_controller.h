@@ -15,10 +15,8 @@
 class CharacterController
 {
     sqlite3 *db;
-    CharacterService *char_service;
-    KnightService *knight_service;
-    SorcererService *sorcerer_service;
-    ClericService *cleric_service;
+    CharacterService *service;
+    SQLiteDatabaseManager db_manager;
 
 public:
     CharacterController(sqlite3 *db, SQLiteDatabaseManager db_manager);

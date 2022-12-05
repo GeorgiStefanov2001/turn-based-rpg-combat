@@ -25,6 +25,8 @@ public:
 
     std::list<Character> list_characters_for_user(User owner);
 
+    virtual void create(std::string name, std::string gender, int age, User owner);
+
     void create_character(std::string character_class,
                           std::string name,
                           std::string gender,

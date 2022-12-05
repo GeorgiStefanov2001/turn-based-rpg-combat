@@ -107,6 +107,10 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
         {
             throw;
         }
+        catch (ProgramExitException)
+        {
+            throw;
+        }
         catch (CustomException e)
         {
             std::cout << "\n"

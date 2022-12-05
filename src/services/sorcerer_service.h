@@ -11,7 +11,7 @@
 #include <string>
 #include <list>
 
-class SorcererService : CharacterService
+class SorcererService : public CharacterService
 {
     SQLiteDatabaseManager database_manager;
     sqlite3 *db;
@@ -21,10 +21,10 @@ public:
 
     Sorcerer get_sorcerer(std::string name, User user);
 
-    void create_sorcerer(std::string name,
-                         std::string gender,
-                         int age,
-                         User owner);
+    void create(std::string name,
+                std::string gender,
+                int age,
+                User owner);
 };
 
 #endif
