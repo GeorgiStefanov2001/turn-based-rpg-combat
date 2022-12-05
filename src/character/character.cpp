@@ -5,6 +5,10 @@
 #include <string>
 #include <list>
 
+Character::Character()
+{
+}
+
 Character::Character(int id,
                      std::string character_class,
                      std::string name,
@@ -132,7 +136,7 @@ bool Character::is_alive()
 
 std::ostream &operator<<(std::ostream &s, const Character &character)
 {
-    return s << "- " << character.name << ": class: " << character.character_class << ", lvl "
+    return s << "- " << character.name << ": " << character.character_class << ", lvl "
              << character.level << ", gender: " << character.gender << ", age: " << character.age << ".\n"
              << "   Stats: VIG:" << character.vigor << ", END: " << character.endurance
              << ", STR: " << character.strength << ", DEX: " << character.dexterity

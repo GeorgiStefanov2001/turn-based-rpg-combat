@@ -1,8 +1,6 @@
 #include "character_controller.h"
 #include <user/user.h>
 #include <character/character.h>
-#include <services/character_service.h>
-#include <services/knight_service.h>
 #include <database_manager/sqlite_database_manager.h>
 #include <exceptions/database_exception.h>
 #include <exceptions/character_exception.h>
@@ -16,6 +14,8 @@ CharacterController::CharacterController(sqlite3 *db, SQLiteDatabaseManager db_m
     this->db = db;
     this->char_service = new CharacterService(db_manager, this->db);
     this->knight_service = new KnightService(db_manager, this->db);
+    this->sorcerer_service = new SorcererService(db_manager, this->db);
+    this->cleric_service = new ClericService(db_manager, this->db);
 }
 
 void CharacterController::create_character(User current_user)
@@ -58,8 +58,8 @@ void CharacterController::create_character(User current_user)
             int choice;
             std::cout << "\nSelect character class: " << std::endl;
             std::cout << "1. Knight" << std::endl;
-            std::cout << "2. Wizard" << std::endl;
-            std::cout << "3. Paladin" << std::endl;
+            std::cout << "2. Sorcerer" << std::endl;
+            std::cout << "3. Cleric" << std::endl;
             std::cout << "\nEnter your choice: ";
             std::cin >> choice;
 
@@ -74,10 +74,20 @@ void CharacterController::create_character(User current_user)
                           << std::endl;
                 break;
             case 2:
-                // Wizard
+                // Sorcerer
+                this->sorcerer_service->create_sorcerer(name, gender, age, current_user);
+                std::cout << "\nSorcerer " << name << " created successfully!\n"
+                          << std::endl;
+                std::cout << "* - * - *\n"
+                          << std::endl;
                 break;
             case 3:
-                // Paladin
+                // Cleric
+                this->cleric_service->create_cleric(name, gender, age, current_user);
+                std::cout << "\nCleric " << name << " created successfully!\n"
+                          << std::endl;
+                std::cout << "* - * - *\n"
+                          << std::endl;
                 break;
             default:
                 std::cout << "\nInvalid character class!" << std::endl;

@@ -29,16 +29,12 @@ class Character
     /**
      * Fields that relate to the dynamically changing character status
      */
-    int current_vigor, current_endurance, current_mana, current_xp;
+    int current_vigor, current_endurance, current_xp;
 
     /**
      * A list of strings that contains all the available attacks this class has.
      */
     std::list<std::string> available_attacks;
-
-    // TODO: For mage classes - add "mana" stat and current_mana field
-    // TODO: Add current_level + other current_<attribute> as needed
-    // (such as current_xp so each win in battle gives xp and we can level up after the fight if the xp >= lvl cap)
 
     /**
      * Overload the operator<< for ostream in order to print out the details of the current Character instance.
@@ -53,6 +49,7 @@ class Character
     friend std::ostream &operator<<(std::ostream &s, const Character &character);
 
 protected:
+    Character();
     /**
      * Initialize a new instance of the Character class with the given parameters
      *
@@ -109,7 +106,7 @@ protected:
      *
      * @param[in] available_attacks the value to which the available attacks attribute of this Character instance will be set
      */
-    virtual void set_available_attacks(std::list<std::string> available_attacks);
+    void set_available_attacks(std::list<std::string> available_attacks);
 
 public:
     /**
@@ -145,8 +142,6 @@ public:
     int get_age();
 
     void set_age(int age);
-
-    // TODO: Add getter/setters for the other atributes (setter used when leveling up)
 
     /**
      * Get the current vigor of the character

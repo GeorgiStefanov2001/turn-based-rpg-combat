@@ -9,6 +9,18 @@ static const std::list<std::string> KNIGHT_AVAILABLE_ATTACKS = {
     "long_slash",
     "stab"};
 
+std::map<std::string, int> Knight::start_attrb = {{"level", 9},
+                                                  {"vigor", 12},
+                                                  {"endurance", 11},
+                                                  {"strength", 13},
+                                                  {"dexterity", 12},
+                                                  {"inteligence", 9},
+                                                  {"faith", 9}};
+
+Knight::Knight() : Character()
+{
+}
+
 Knight::Knight(int id,
                std::string name,
                std::string gender,
@@ -19,9 +31,10 @@ Knight::Knight(int id,
                int strength,
                int dexterity,
                int inteligence,
-               int faith)
+               int faith,
+               std::string character_class)
     : Character(id,
-                "Knight",
+                character_class,
                 name,
                 gender,
                 age,

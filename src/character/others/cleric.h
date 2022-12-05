@@ -1,27 +1,28 @@
-#ifndef __KNIGHT_H_INCLUDED__
-#define __KNIGHT_H_INCLUDED__
+#ifndef __CLERIC_H_INCLUDED__
+#define __CLERIC_H_INCLUDED__
 
-#include <character/character.h>
+#include <character/melee/knight.h>
+#include <character/mage/sorcerer.h>
 
 #include <string>
 
 /**
- * Knight class
+ * Cleric class
  */
-class Knight : virtual public Character
+class Cleric : public Knight, public Sorcerer
 {
 protected:
-    Knight();
+    Cleric();
 
 public:
     /**
-     * Starting attributes of the Knight class
+     * Starting attributes of the Cleric class
      */
 
     static std::map<std::string, int> start_attrb;
 
     /**
-     * Initialize a new instance of the Knight class with the given parameters
+     * Initialize a new instance of the Cleric class with the given parameters
      *
      * @param[in] id the id of the character that will be created
      * @param[in] name the name of the character that will be created
@@ -36,7 +37,7 @@ public:
      * @param[in] inteligence the inteligence attribute of the character that will be created
      * @param[in] faith the faith attribute of the character that will be created
      */
-    Knight(int id,
+    Cleric(int id,
            std::string name,
            std::string gender,
            int age,
@@ -47,7 +48,7 @@ public:
            int dexterity,
            int inteligence,
            int faith,
-           std::string character_class = "Knight");
+           std::string character_class = "Cleric");
 };
 
 #endif

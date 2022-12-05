@@ -8,19 +8,6 @@
 #include <map>
 #include <string>
 
-/**
- * Starting attributes of the Knight class
- */
-
-std::map<std::string, int> start_attrb{
-    {"level", 9},
-    {"vigor", 12},
-    {"endurance", 11},
-    {"strength", 13},
-    {"dexterity", 12},
-    {"inteligence", 9},
-    {"faith", 9}};
-
 KnightService::KnightService(SQLiteDatabaseManager database_manager, sqlite3 *db)
     : CharacterService(database_manager, db)
 {
@@ -38,13 +25,13 @@ void KnightService::create_knight(std::string name,
             name,
             gender,
             age,
-            start_attrb.at("level"),
-            start_attrb.at("vigor"),
-            start_attrb.at("endurance"),
-            start_attrb.at("strength"),
-            start_attrb.at("dexterity"),
-            start_attrb.at("inteligence"),
-            start_attrb.at("faith"),
+            Knight::start_attrb.at("level"),
+            Knight::start_attrb.at("vigor"),
+            Knight::start_attrb.at("endurance"),
+            Knight::start_attrb.at("strength"),
+            Knight::start_attrb.at("dexterity"),
+            Knight::start_attrb.at("inteligence"),
+            Knight::start_attrb.at("faith"),
             owner);
     }
     catch (DatabaseException e)

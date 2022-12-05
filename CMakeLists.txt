@@ -8,8 +8,11 @@ set(CMAKE_CXX_STANDARD 14)
 set(
   SOURCES 
   src/main.cpp 
+  src/character/character.cpp 
   src/fight/attack/attack.cpp
   src/character/melee/knight.cpp
+  src/character/mage/sorcerer.cpp
+  src/character/others/cleric.cpp
   src/user/user.cpp
   src/exceptions/custom_exception.cpp
   src/exceptions/database_exception.cpp
@@ -21,13 +24,14 @@ set(
   src/services/attack_service.cpp
   src/services/character_service.cpp
   src/services/knight_service.cpp
+  src/services/sorcerer_service.cpp
+  src/services/cleric_service.cpp
   src/controllers/user_controller.cpp
   src/controllers/character_controller.cpp
   src/controllers/attack_controller.cpp
   src/database_manager/sqlite_database_manager.cpp
   src/menus/startup_menu.cpp
   src/menus/logged_in_menu.cpp
-  src/character/character.cpp 
   )
 
 add_executable(

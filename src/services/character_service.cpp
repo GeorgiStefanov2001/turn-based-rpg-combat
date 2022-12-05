@@ -1,5 +1,7 @@
 #include <character/character.h>
 #include <character/melee/knight.h>
+#include <character/mage/sorcerer.h>
+#include <character/others/cleric.h>
 #include "character_service.h"
 #include <database_manager/sqlite_database_manager.h>
 #include <exceptions/database_exception.h>
@@ -37,13 +39,13 @@ Character *CharacterService::create_character_from_data(std::map<std::string, st
     {
         character = new Knight(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
     }
-    else if (character_class.compare("Wizard") == 0)
+    else if (character_class.compare("Sorcerer") == 0)
     {
-        // TODO
+        character = new Sorcerer(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
     }
-    else if (character_class.compare("Paladin") == 0)
+    else if (character_class.compare("Cleric") == 0)
     {
-        // TODO
+        character = new Cleric(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
     }
 
     return character;
