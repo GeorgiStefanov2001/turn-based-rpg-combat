@@ -113,21 +113,37 @@ void Character::set_available_attacks(std::list<std::string> available_attacks)
     this->available_attacks = available_attacks;
 }
 
-// void Character::attack(Character &enemy,
-//                        Attack attack)
-// {
-//     int endurance_left = this->get_current_endurance() - endurance_consumption;
-//     if (endurance_left >= 0)
-//     {
-//         this->set_current_endurance(endurance_left);
-//         std::cout << this->name << " attacks " << enemy.get_name() << "(attack_name: " << attack_name << ", damage_dealt: " << damage_dealt << ");" << std::endl;
-//         enemy.set_current_vigor(enemy.get_current_vigor() - damage_dealt);
-//     }
-//     else
-//     {
-//         std::cout << "Not enough endurance to perform this attack!" << std::endl;
-//     }
-// }
+bool Character::meets_attack_reqs(Attack attack)
+{
+    return (
+        this->strength >= attack.get_stat_requirements().at("strength") &&
+        this->dexterity >= attack.get_stat_requirements().at("dexterity") &&
+        this->inteligence >= attack.get_stat_requirements().at("inteligence") &&
+        this->faith >= attack.get_stat_requirements().at("faith"));
+}
+
+void Character::attack(Character &enemy,
+                       Attack attack)
+{
+    int endurance_left = this->get_current_endurance() - attack.get_endurance_consumption();
+
+    bool enough_end = endurance_left >= 0;
+
+    if (!enough_end)
+    {
+        std::cout << "Not enough endurance to perform this attack!" << std::endl;
+    }
+    else if (!this->meets_attack_reqs(attack))
+    {
+        std::cout << "Your stats don't meet the attack requirements of this attack!" << std::endl;
+    }
+    else
+    {
+        this->set_current_endurance(endurance_left);
+        std::cout << this->name << " attacks " << enemy.get_name() << "(attack_name: " << attack.get_name() << ", damage_dealt: " << attack.get_damage_dealt() << ");" << std::endl;
+        enemy.set_current_vigor(enemy.get_current_vigor() - attack.get_damage_dealt());
+    }
+}
 
 bool Character::is_alive()
 {

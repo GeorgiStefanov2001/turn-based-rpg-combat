@@ -29,6 +29,7 @@ set(
   src/controllers/user_controller.cpp
   src/controllers/character_controller.cpp
   src/controllers/attack_controller.cpp
+  src/fight/fight_manager.cpp
   src/database_manager/sqlite_database_manager.cpp
   src/menus/startup_menu.cpp
   src/menus/logged_in_menu.cpp

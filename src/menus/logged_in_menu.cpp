@@ -4,6 +4,7 @@
 #include <controllers/user_controller.h>
 #include <controllers/character_controller.h>
 #include <controllers/attack_controller.h>
+#include <fight/fight_manager.h>
 #include <exceptions/database_exception.h>
 #include <exceptions/custom_exception.h>
 #include <exceptions/program_exit_exception.h>
@@ -18,6 +19,7 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
     UserController user_controller(db, db_manager);
     CharacterController character_controller(db, db_manager);
     AttackController attack_controller(db, db_manager);
+    FightManager fight_manager(db, db_manager);
 
     std::cout
         << "\nWelcome, " << user.get_first_name() << "!\n"
@@ -53,6 +55,7 @@ void LoggedInMenu::display(bool &logged_in, User &user, SQLiteDatabaseManager db
             switch (choice)
             {
             case 1:
+                fight_manager.fight(user);
                 break;
             case 2:
                 character_controller.create_character(user);

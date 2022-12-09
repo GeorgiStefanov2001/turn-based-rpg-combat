@@ -186,6 +186,8 @@ public:
      * @returns true if the character is alive, otherwise false
      */
     bool is_alive();
+
+    bool meets_attack_reqs(Attack attack);
 };
 
 #endif
