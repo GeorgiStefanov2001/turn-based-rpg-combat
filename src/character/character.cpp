@@ -1,5 +1,6 @@
 #include "character.h"
 #include <fight/attack/attack.h>
+#include <exceptions/attack_exception.h>
 
 #include <iostream>
 #include <string>
@@ -36,6 +37,7 @@ Character::Character(int id,
     this->faith = faith;
     this->current_vigor = (vigor * this->VIGOR_MULTIPLIER);
     this->current_endurance = (endurance * this->ENDURANCE_MULTIPLIER);
+    this->current_mana = (inteligence * this->MANA_MULTIPLIER);
 }
 
 int Character::get_id()
@@ -93,6 +95,16 @@ void Character::set_current_endurance(int endurance)
     this->current_endurance = endurance;
 }
 
+int Character::get_current_mana()
+{
+    return this->current_mana;
+}
+
+void Character::set_current_mana(int mana)
+{
+    this->current_mana = mana;
+}
+
 int Character::get_current_xp()
 {
     return this->current_xp;
@@ -126,20 +138,23 @@ void Character::attack(Character &enemy,
                        Attack attack)
 {
     int endurance_left = this->get_current_endurance() - attack.get_endurance_consumption();
+    int mana_left = this->get_current_mana() - attack.get_mana_consumption();
 
     bool enough_end = endurance_left >= 0;
+    bool enough_mana = mana_left >= 0;
 
-    if (!enough_end)
+    if (!enough_end || !enough_mana)
     {
-        std::cout << "Not enough endurance to perform this attack!" << std::endl;
+        throw AttackException("Not enough endurance/mana to perform this attack!");
     }
     else if (!this->meets_attack_reqs(attack))
     {
-        std::cout << "Your stats don't meet the attack requirements of this attack!" << std::endl;
+        throw AttackException("Your stats don't meet the attack requirements of this attack!");
     }
     else
     {
         this->set_current_endurance(endurance_left);
+        this->set_current_mana(mana_left);
         std::cout << "\n"
                   << this->name << " attacks " << enemy.get_name() << "(attack_name: " << attack.get_name() << ", damage_dealt: " << attack.get_damage_dealt() << ");" << std::endl;
         enemy.set_current_vigor(enemy.get_current_vigor() - attack.get_damage_dealt());
@@ -149,6 +164,11 @@ void Character::attack(Character &enemy,
 bool Character::is_alive()
 {
     return this->get_current_vigor() >= 0;
+}
+
+void Character::forfeit()
+{
+    this->set_current_vigor(-1);
 }
 
 std::ostream &operator<<(std::ostream &s, const Character &character)

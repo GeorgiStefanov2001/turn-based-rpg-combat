@@ -24,6 +24,7 @@ void FightManager::fight(User current_user)
 {
     std::string char1_name, char2_name, char1_class, char2_class;
     Character *ch1, *ch2;
+    this->game_over = false;
 
     std::cout << "\nFight\n"
               << std::endl;
@@ -41,23 +42,27 @@ void FightManager::fight(User current_user)
         } while (char1_name.compare(char2_name) == 0);
         ch2 = this->service->get_character(char2_name, current_user);
 
-        while (true)
+        while (!this->game_over)
         {
             choose_action(*ch1, *ch2);
-            if (!ch2->is_alive())
-            {
-                std::cout << ch1->get_name() << " wins!\n"
-                          << std::endl;
+
+            if (this->game_over)
                 break;
-            }
+
             choose_action(*ch2, *ch1);
-            if (!ch1->is_alive())
-            {
-                std::cout << ch2->get_name() << " wins!\n"
-                          << std::endl;
-                break;
-            }
         }
+
+        if (!ch1->is_alive())
+        {
+            std::cout << ch2->get_name() << " wins!\n"
+                      << std::endl;
+        }
+        else if (!ch2->is_alive())
+        {
+            std::cout << ch1->get_name() << " wins!\n"
+                      << std::endl;
+        }
+
         std::cout << "\n* - * - *\n"
                   << std::endl;
     }
@@ -73,8 +78,14 @@ void FightManager::choose_action(Character &attacker, Character &attacked)
     std::string attack_choice;
     bool valid_attack = true;
 
-    std::cout << "\n>" << attacker.get_name() << ": Vigor: " << attacker.get_current_vigor() << ", Endurance: " << attacker.get_current_endurance();
-    std::cout << "\n>" << attacked.get_name() << ": Vigor: " << attacked.get_current_vigor() << ", Endurance: " << attacked.get_current_endurance() << "\n";
+    std::cout << "\n>" << attacker.get_name() << ": Vigor: "
+              << attacker.get_current_vigor()
+              << ", Endurance: " << attacker.get_current_endurance()
+              << ", Mana: " << attacker.get_current_mana();
+    std::cout << "\n>" << attacked.get_name() << ": Vigor: "
+              << attacked.get_current_vigor()
+              << ", Endurance: " << attacked.get_current_endurance()
+              << ". Mana: " << attacked.get_current_mana() << "\n";
 
     std::cout
         << "\n> "
@@ -84,6 +95,7 @@ void FightManager::choose_action(Character &attacker, Character &attacked)
     std::cout << "1. Attack" << std::endl;
     std::cout << "2. Special ability" << std::endl;
     std::cout << "3. Pass turn" << std::endl;
+    std::cout << "4. Forfeit" << std::endl;
     std::cout << "\nEnter your choice: ";
     std::cin >> choice;
     std::cout << "\n";
@@ -103,8 +115,13 @@ void FightManager::choose_action(Character &attacker, Character &attacked)
             try
             {
                 valid_attack = true;
-                std::cout << "Enter a valid attack name: ";
+                std::cout << "Enter a valid attack name ('skip' to skip turn): ";
                 std::cin >> attack_choice;
+
+                if (attack_choice.compare("skip") == 0)
+                {
+                    break;
+                }
 
                 std::list<std::string> attacks = attacker.get_available_attacks();
                 valid_attack = (std::find(attacks.begin(), attacks.end(), attack_choice) != attacks.end());
@@ -115,8 +132,9 @@ void FightManager::choose_action(Character &attacker, Character &attacked)
                     attacker.attack(attacked, attack);
                 }
             }
-            catch (AttackException)
+            catch (AttackException e)
             {
+                std::cout << e.what() << std::endl;
                 valid_attack = false;
             }
         } while (!valid_attack);
@@ -125,6 +143,11 @@ void FightManager::choose_action(Character &attacker, Character &attacked)
         break;
     case 3:
         std::cout << "> " << attacker.get_name() << " passes their turn..." << std::endl;
+        break;
+    case 4:
+        std::cout << "> " << attacker.get_name() << " forfeits..." << std::endl;
+        attacker.forfeit();
+        this->game_over = true;
         break;
     default:
         std::cout << "Invalid choice!" << std::endl;

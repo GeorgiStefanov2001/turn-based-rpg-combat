@@ -10,17 +10,8 @@
  */
 class Sorcerer : virtual public Character
 {
-    static const int MANA_MULTIPLIER = 15;
-    int current_mana;
-
 protected:
     Sorcerer();
-    /**
-     * Set the current mana of the character to a given value
-     *
-     * @param[in] mana the value to which the current mana attribute of this Character will be set
-     */
-    void set_current_mana(int mana);
 
 public:
     /**
@@ -57,8 +48,6 @@ public:
              int inteligence,
              int faith,
              std::string character_class = "Sorcerer");
-
-    int get_current_mana();
 
     void special();
 };

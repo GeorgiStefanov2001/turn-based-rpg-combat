@@ -48,17 +48,6 @@ Sorcerer::Sorcerer(int id,
                 faith)
 {
     this->set_available_attacks(SORCERER_AVAILABLE_ATTACKS);
-    this->current_mana = (inteligence * this->MANA_MULTIPLIER);
-}
-
-int Sorcerer::get_current_mana()
-{
-    return this->current_mana;
-}
-
-void Sorcerer::set_current_mana(int mana)
-{
-    this->current_mana = current_mana;
 }
 
 void Sorcerer::special()

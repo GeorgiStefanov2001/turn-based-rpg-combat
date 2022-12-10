@@ -19,6 +19,7 @@ class Character
      */
     static const int VIGOR_MULTIPLIER = 20;
     static const int ENDURANCE_MULTIPLIER = 15;
+    static const int MANA_MULTIPLIER = 15;
 
     /**
      * Character attributes that get set upon creation
@@ -29,7 +30,7 @@ class Character
     /**
      * Fields that relate to the dynamically changing character status
      */
-    int current_vigor, current_endurance, current_xp;
+    int current_vigor, current_endurance, current_mana, current_xp;
 
     /**
      * A list of strings that contains all the available attacks this class has.
@@ -95,6 +96,13 @@ protected:
     void set_current_endurance(int endurance);
 
     /**
+     * Set the current mana of the character to a given value
+     *
+     * @param[in] mana the value to which the current mana attribute of this Character will be set
+     */
+    void set_current_mana(int mana);
+
+    /**
      * Set the current xp of the character to a given value
      *
      * @param[in] xp the value to which the current xp attribute of this Character instance will be set
@@ -158,6 +166,13 @@ public:
     int get_current_endurance();
 
     /**
+     * Get the current mana of the character
+     *
+     * @returns the current mana attribute of this Character instance
+     */
+    int get_current_mana();
+
+    /**
      * Get the current xp of the character
      *
      * @returns the current xp attribute of this Character instance
@@ -190,6 +205,8 @@ public:
     bool meets_attack_reqs(Attack attack);
 
     virtual void special() = 0;
+
+    void forfeit();
 };
 
 #endif

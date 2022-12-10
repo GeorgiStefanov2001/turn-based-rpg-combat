@@ -17,6 +17,7 @@ class FightManager
     CharacterService *service;
     SQLiteDatabaseManager db_manager;
     AttackService *attack_service;
+    bool game_over;
 
 public:
     FightManager(sqlite3 *db, SQLiteDatabaseManager db_manager);
