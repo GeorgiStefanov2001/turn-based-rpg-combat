@@ -115,14 +115,14 @@ void CharacterController::list_character_for_user(User current_user)
 
     try
     {
-        std::list<Character> characters = this->service->list_characters_for_user(current_user);
+        std::list<Character *> characters = this->service->list_characters_for_user(current_user);
 
         for (const auto &character : characters)
         {
             /**
              * Good thing we overwrote the << operator :)
              */
-            std::cout << character << "\n"
+            std::cout << *character << "\n"
                       << std::endl;
         }
         std::cout << "\n";
@@ -149,7 +149,8 @@ void CharacterController::delete_character(User current_user)
 
     try
     {
-        Character character = this->service->get_character(name, current_user);
+        Character *character;
+        character = this->service->get_character(name, current_user);
         this->service->delete_character(character);
         std::cout << "\nCharacter " << name << " deleted successfully!\n"
                   << std::endl;
@@ -177,7 +178,8 @@ void CharacterController::update_character(User current_user)
 
     try
     {
-        Character character = this->service->get_character(name, current_user);
+        Character *character;
+        character = this->service->get_character(name, current_user);
 
         std::cout << "Enter new name <enter 'same' to keep current>: ";
         std::cin >> new_name;
@@ -192,13 +194,13 @@ void CharacterController::update_character(User current_user)
         /**
          * Extremely beautiful logic follows :)
          */
-        new_name = (new_name.compare("same") == 0) ? character.get_name() : new_name;
-        new_gender = (new_gender.compare("same") == 0) ? character.get_gender() : new_gender;
-        new_age = (new_age == -1) ? character.get_age() : new_age;
+        new_name = (new_name.compare("same") == 0) ? character->get_name() : new_name;
+        new_gender = (new_gender.compare("same") == 0) ? character->get_gender() : new_gender;
+        new_age = (new_age == -1) ? character->get_age() : new_age;
 
-        character.set_name(new_name);
-        character.set_gender(new_gender);
-        character.set_age(new_age);
+        character->set_name(new_name);
+        character->set_gender(new_gender);
+        character->set_age(new_age);
 
         this->service->update_character(character);
         std::cout << "\nCharacter " << name << " updated successfully!\n"

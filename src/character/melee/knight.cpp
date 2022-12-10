@@ -48,3 +48,8 @@ Knight::Knight(int id,
 {
     this->set_available_attacks(KNIGHT_AVAILABLE_ATTACKS);
 }
+
+void Knight::special()
+{
+    std::cout << "i am knight" << std::endl;
+}

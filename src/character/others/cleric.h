@@ -49,6 +49,8 @@ public:
            int inteligence,
            int faith,
            std::string character_class = "Cleric");
+
+    void special();
 };
 
 #endif

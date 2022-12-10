@@ -21,9 +21,11 @@ public:
 
     Character *create_character_from_data(std::map<std::string, std::string> character_data);
 
-    Character get_character(std::string name, User owner);
+    std::string get_character_class(std::string name, User owner);
 
-    std::list<Character> list_characters_for_user(User owner);
+    Character *get_character(std::string name, User owner);
+
+    std::list<Character *> list_characters_for_user(User owner);
 
     virtual void create(std::string name, std::string gender, int age, User owner);
 
@@ -40,9 +42,9 @@ public:
                           int faith,
                           User owner);
 
-    void delete_character(Character character);
+    void delete_character(Character *character);
 
-    void update_character(Character character);
+    void update_character(Character *character);
 };
 
 #endif

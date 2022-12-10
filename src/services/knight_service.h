@@ -19,8 +19,6 @@ class KnightService : public CharacterService
 public:
     KnightService(SQLiteDatabaseManager database_manager, sqlite3 *db);
 
-    Knight get_knight(std::string name, User user);
-
     void create(std::string name,
                 std::string gender,
                 int age,

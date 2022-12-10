@@ -19,8 +19,6 @@ class SorcererService : public CharacterService
 public:
     SorcererService(SQLiteDatabaseManager database_manager, sqlite3 *db);
 
-    Sorcerer get_sorcerer(std::string name, User user);
-
     void create(std::string name,
                 std::string gender,
                 int age,

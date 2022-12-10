@@ -188,6 +188,8 @@ public:
     bool is_alive();
 
     bool meets_attack_reqs(Attack attack);
+
+    virtual void special() = 0;
 };
 
 #endif

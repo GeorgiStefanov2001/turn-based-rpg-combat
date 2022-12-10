@@ -48,6 +48,8 @@ public:
            int inteligence,
            int faith,
            std::string character_class = "Knight");
+
+    void special();
 };
 
 #endif

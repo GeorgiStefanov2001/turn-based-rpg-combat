@@ -19,8 +19,6 @@ class ClericService : public CharacterService
 public:
     ClericService(SQLiteDatabaseManager database_manager, sqlite3 *db);
 
-    Cleric get_cleric(std::string name, User user);
-
     void create(std::string name,
                 std::string gender,
                 int age,

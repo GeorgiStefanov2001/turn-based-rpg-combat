@@ -59,6 +59,8 @@ public:
              std::string character_class = "Sorcerer");
 
     int get_current_mana();
+
+    void special();
 };
 
 #endif

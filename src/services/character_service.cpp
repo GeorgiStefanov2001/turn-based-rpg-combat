@@ -15,8 +15,6 @@ CharacterService::CharacterService(SQLiteDatabaseManager database_manager, sqlit
 
 Character *CharacterService::create_character_from_data(std::map<std::string, std::string> character_data)
 {
-    Character *character;
-
     int id, age, level, vigor, endurance, strength, dexterity, inteligence, faith;
     std::string name, gender, character_class;
     /**
@@ -40,29 +38,26 @@ Character *CharacterService::create_character_from_data(std::map<std::string, st
      */
     if (character_class.compare("Knight") == 0)
     {
-        character = new Knight(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
+        return new Knight(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
     }
     else if (character_class.compare("Sorcerer") == 0)
     {
-        character = new Sorcerer(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
+        return new Sorcerer(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
     }
     else if (character_class.compare("Cleric") == 0)
     {
-        character = new Cleric(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
+        return new Cleric(id, name, gender, age, level, vigor, endurance, strength, dexterity, inteligence, faith);
     }
-
-    return character;
 }
 
-Character CharacterService::get_character(std::string name, User owner)
+std::string CharacterService::get_character_class(std::string name, User owner)
 {
-
     std::map<int, std::map<std::string, std::string>> ret;
     std::map<std::string, std::string> character_data;
-    std::string select_statement;
-    select_statement = "SELECT * FROM CHARACTERS WHERE NAME='" + name + "' AND USER_ID = " + std::to_string(owner.get_id()) + ";";
+    std::string select_statement, char_class;
 
-    Character *character;
+    select_statement = "SELECT CLASS FROM CHARACTERS WHERE NAME='" + name + "' AND USER_ID = " + std::to_string(owner.get_id()) + ";";
+
     try
     {
         ret = this->database_manager.select(this->db, select_statement);
@@ -78,17 +73,48 @@ Character CharacterService::get_character(std::string name, User owner)
          * this would be our character
          */
         character_data = ret.at(1);
-        character = this->create_character_from_data(character_data);
+        char_class = character_data.at("CLASS");
     }
     catch (DatabaseException e)
     {
         throw;
     }
 
-    return *character;
+    return char_class;
 }
 
-std::list<Character> CharacterService::list_characters_for_user(User owner)
+Character *CharacterService::get_character(std::string name, User owner)
+{
+
+    std::map<int, std::map<std::string, std::string>> ret;
+    std::map<std::string, std::string> character_data;
+    std::string select_statement;
+    select_statement = "SELECT * FROM CHARACTERS WHERE NAME='" + name + "' AND USER_ID = " + std::to_string(owner.get_id()) + ";";
+
+    try
+    {
+        ret = this->database_manager.select(this->db, select_statement);
+
+        if (ret.size() == 0)
+        {
+            // character doesn't exist
+            throw CharacterException("Character doesn't exist!");
+        }
+
+        /**
+         * get the first and only element of the map of characters;
+         * this would be our character
+         */
+        character_data = ret.at(1);
+        return this->create_character_from_data(character_data);
+    }
+    catch (DatabaseException e)
+    {
+        throw;
+    }
+}
+
+std::list<Character *> CharacterService::list_characters_for_user(User owner)
 {
     std::map<int, std::map<std::string, std::string>> ret;
     std::map<std::string, std::string> character_data;
@@ -96,7 +122,7 @@ std::list<Character> CharacterService::list_characters_for_user(User owner)
     select_statement = "SELECT * FROM CHARACTERS WHERE USER_ID = " + std::to_string(owner.get_id()) + ";";
 
     Character *character;
-    std::list<Character> characters;
+    std::list<Character *> characters;
 
     try
     {
@@ -116,7 +142,7 @@ std::list<Character> CharacterService::list_characters_for_user(User owner)
 
             character_data = ret.at(i);
             character = this->create_character_from_data(character_data);
-            characters.push_back(*character);
+            characters.push_back(character);
         }
     }
     catch (DatabaseException e)
@@ -158,10 +184,10 @@ void CharacterService::create_character(std::string character_class,
     }
 }
 
-void CharacterService::delete_character(Character character)
+void CharacterService::delete_character(Character *character)
 {
     std::string delete_statement;
-    delete_statement = "DELETE FROM CHARACTERS WHERE ID='" + std::to_string(character.get_id()) + "';";
+    delete_statement = "DELETE FROM CHARACTERS WHERE ID='" + std::to_string(character->get_id()) + "';";
 
     try
     {
@@ -173,12 +199,12 @@ void CharacterService::delete_character(Character character)
     }
 }
 
-void CharacterService::update_character(Character character)
+void CharacterService::update_character(Character *character)
 {
     std::string update_statement;
-    update_statement = "UPDATE CHARACTERS SET NAME = '" + character.get_name() +
-                       "', GENDER = '" + character.get_gender() + "', AGE = '" +
-                       std::to_string(character.get_age()) + "' WHERE ID='" + std::to_string(character.get_id()) + "';";
+    update_statement = "UPDATE CHARACTERS SET NAME = '" + character->get_name() +
+                       "', GENDER = '" + character->get_gender() + "', AGE = '" +
+                       std::to_string(character->get_age()) + "' WHERE ID='" + std::to_string(character->get_id()) + "';";
 
     try
     {

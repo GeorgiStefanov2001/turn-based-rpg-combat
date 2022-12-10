@@ -60,3 +60,8 @@ Cleric::Cleric(int id,
 {
     this->set_available_attacks(CLERIC_AVAILABLE_ATTACKS);
 }
+
+void Cleric::special()
+{
+    std::cout << " i am a cleric" << std::endl;
+}

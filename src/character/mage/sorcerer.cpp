@@ -60,3 +60,8 @@ void Sorcerer::set_current_mana(int mana)
 {
     this->current_mana = current_mana;
 }
+
+void Sorcerer::special()
+{
+    std::cout << "i am sorcerer" << std::endl;
+}

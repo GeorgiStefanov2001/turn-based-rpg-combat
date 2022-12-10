@@ -140,7 +140,8 @@ void Character::attack(Character &enemy,
     else
     {
         this->set_current_endurance(endurance_left);
-        std::cout << this->name << " attacks " << enemy.get_name() << "(attack_name: " << attack.get_name() << ", damage_dealt: " << attack.get_damage_dealt() << ");" << std::endl;
+        std::cout << "\n"
+                  << this->name << " attacks " << enemy.get_name() << "(attack_name: " << attack.get_name() << ", damage_dealt: " << attack.get_damage_dealt() << ");" << std::endl;
         enemy.set_current_vigor(enemy.get_current_vigor() - attack.get_damage_dealt());
     }
 }
