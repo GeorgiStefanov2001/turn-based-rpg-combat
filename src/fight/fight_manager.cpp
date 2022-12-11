@@ -44,23 +44,15 @@ void FightManager::fight(User current_user)
 
         while (!this->game_over)
         {
-            choose_action(*ch1, *ch2);
-
+            this->choose_action(*ch1, *ch2);
+            this->check_death(this->game_over, ch1, ch2);
             if (this->game_over)
                 break;
 
-            choose_action(*ch2, *ch1);
-        }
-
-        if (!ch1->is_alive())
-        {
-            std::cout << ch2->get_name() << " wins!\n"
-                      << std::endl;
-        }
-        else if (!ch2->is_alive())
-        {
-            std::cout << ch1->get_name() << " wins!\n"
-                      << std::endl;
+            this->choose_action(*ch2, *ch1);
+            this->check_death(this->game_over, ch2, ch1);
+            if (this->game_over)
+                break;
         }
 
         std::cout << "\n* - * - *\n"
@@ -69,6 +61,23 @@ void FightManager::fight(User current_user)
     catch (CharacterException e)
     {
         throw;
+    }
+}
+
+void FightManager::check_death(bool &game_over, Character *attacker, Character *attacked)
+{
+    if (!attacker->is_alive())
+    {
+        std::cout << attacked->get_name() << " wins!\n"
+                  << std::endl;
+        game_over = true;
+    }
+
+    if (!attacked->is_alive())
+    {
+        std::cout << attacker->get_name() << " wins!\n"
+                  << std::endl;
+        game_over = true;
     }
 }
 
@@ -140,6 +149,15 @@ void FightManager::choose_action(Character &attacker, Character &attacked)
         } while (!valid_attack);
         break;
     case 2:
+        try
+        {
+            std::cout << "> " << attacker.get_name() << " uses their special ability..." << std::endl;
+            attacker.special();
+        }
+        catch (AttackException e)
+        {
+            std::cout << e.what() << std::endl;
+        }
         break;
     case 3:
         std::cout << "> " << attacker.get_name() << " passes their turn..." << std::endl;

@@ -24,6 +24,8 @@ public:
 
     void fight(User current_user);
 
+    void check_death(bool &game_over, Character *attacker, Character *attacked);
+
     void choose_action(Character &attacker, Character &attacked);
 };
 

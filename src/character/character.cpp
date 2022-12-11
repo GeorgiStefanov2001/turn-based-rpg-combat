@@ -75,6 +75,66 @@ void Character::set_age(int age)
     this->age = age;
 }
 
+int Character::get_vigor()
+{
+    return this->vigor;
+}
+
+void Character::set_vigor(int vigor)
+{
+    this->vigor = vigor;
+}
+
+int Character::get_endurance()
+{
+    return this->endurance;
+}
+
+void Character::set_endurance(int endurance)
+{
+    this->endurance = endurance;
+}
+
+int Character::get_strength()
+{
+    return this->strength;
+}
+
+void Character::set_strength(int strength)
+{
+    this->strength = strength;
+}
+
+int Character::get_dexterity()
+{
+    return this->dexterity;
+}
+
+void Character::set_dexterity(int dexterity)
+{
+    this->dexterity = dexterity;
+}
+
+int Character::get_inteligence()
+{
+    return this->inteligence;
+}
+
+void Character::set_inteligence(int inteligence)
+{
+    this->inteligence = inteligence;
+}
+
+int Character::get_faith()
+{
+    return this->faith;
+}
+
+void Character::set_faith(int faith)
+{
+    this->faith = faith;
+}
+
 int Character::get_current_vigor()
 {
     return this->current_vigor;
@@ -163,7 +223,7 @@ void Character::attack(Character &enemy,
 
 bool Character::is_alive()
 {
-    return this->get_current_vigor() >= 0;
+    return this->get_current_vigor() > 0;
 }
 
 void Character::forfeit()

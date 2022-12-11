@@ -1,4 +1,5 @@
 #include "sorcerer.h"
+#include <exceptions/attack_exception.h>
 
 #include <iostream>
 #include <string>
@@ -52,5 +53,26 @@ Sorcerer::Sorcerer(int id,
 
 void Sorcerer::special()
 {
-    std::cout << "i am sorcerer" << std::endl;
+    int max_vigor = this->get_vigor() * Character::VIGOR_MULTIPLIER;
+    int mana_left = this->get_current_mana() - 130;
+
+    if (this->get_current_vigor() == max_vigor)
+    {
+        throw AttackException("Current vigor is at max!");
+    }
+    if (!(mana_left >= 0))
+    {
+        throw AttackException("Not enough mana to perform special!");
+    }
+
+    std::cout << "Healing for 30% of current vigor..." << std::endl;
+    this->set_current_mana(mana_left);
+
+    int new_vigor = ((this->get_current_vigor() * 30) / 100) + this->get_current_vigor();
+
+    if (new_vigor > max_vigor)
+    {
+        new_vigor = max_vigor;
+    }
+    this->set_current_vigor(new_vigor);
 }

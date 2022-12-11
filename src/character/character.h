@@ -13,15 +13,6 @@
 class Character
 {
     /**
-     * Constants
-     * These multiplier are multiplied by the characters "vigor" and "endurance"
-     * attributes which then gives us the vigor and endurance points
-     */
-    static const int VIGOR_MULTIPLIER = 20;
-    static const int ENDURANCE_MULTIPLIER = 15;
-    static const int MANA_MULTIPLIER = 15;
-
-    /**
      * Character attributes that get set upon creation
      */
     std::string character_class, name, gender;
@@ -50,6 +41,15 @@ class Character
     friend std::ostream &operator<<(std::ostream &s, const Character &character);
 
 protected:
+    /**
+     * Constants
+     * These multiplier are multiplied by the characters "vigor" and "endurance"
+     * attributes which then gives us the vigor and endurance points
+     */
+    static const int VIGOR_MULTIPLIER = 20;
+    static const int ENDURANCE_MULTIPLIER = 15;
+    static const int MANA_MULTIPLIER = 15;
+
     Character();
     /**
      * Initialize a new instance of the Character class with the given parameters
@@ -150,6 +150,30 @@ public:
     int get_age();
 
     void set_age(int age);
+
+    int get_vigor();
+
+    void set_vigor(int vigor);
+
+    int get_endurance();
+
+    void set_endurance(int endurance);
+
+    int get_strength();
+
+    void set_strength(int strength);
+
+    int get_dexterity();
+
+    void set_dexterity(int dexterity);
+
+    int get_inteligence();
+
+    void set_inteligence(int inteligence);
+
+    int get_faith();
+
+    void set_faith(int faith);
 
     /**
      * Get the current vigor of the character
