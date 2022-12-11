@@ -63,6 +63,5 @@ Cleric::Cleric(int id,
 
 void Cleric::special()
 {
-    std::cout << "Sepuku..." << std::endl;
-    this->set_current_vigor(0);
+    Sorcerer::special();
 }

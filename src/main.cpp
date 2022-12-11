@@ -59,10 +59,12 @@ int main()
     catch (DatabaseException e)
     {
         std::cerr << "DB ERROR: " << e.what() << std::endl;
+        db_manager.close_database_connection(db);
     }
     catch (ProgramExitException e)
     {
         std::cout << e.what() << std::endl;
+        db_manager.close_database_connection(db);
     }
 
     return 0;
